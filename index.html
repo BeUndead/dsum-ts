@@ -99,7 +99,7 @@
     }
 
     .primary-action {
-      min-height: 58px;
+      min-height: 116px;
       border-color: #67cf67;
       background: #24513a;
       font-size: 20px;
@@ -194,16 +194,17 @@
     }
 
     .slot-card.calibration-choice {
-      min-height: 142px;
       border-color: #ff950b;
     }
 
     .slot-card.calibration-choice::after {
       content: "Tap if seen";
-      position: relative;
+      position: absolute;
       z-index: 1;
+      right: 6px;
+      bottom: 5px;
       color: #ffcf7a;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
     }
@@ -336,7 +337,7 @@
 
       .primary-action {
         grid-area: battle;
-        min-height: 76px;
+        min-height: 152px;
         font-size: 24px;
       }
 
@@ -360,10 +361,6 @@
         padding: 5px 4px;
       }
 
-      .slot-card.calibration-choice {
-        min-height: 118px;
-      }
-
       .slot-card .slot-number {
         width: 20px;
         height: 20px;
@@ -380,13 +377,13 @@
       }
 
       .stage {
-        gap: 8px;
+        display: contents;
       }
 
       .wheel-viewport {
         height: min(38vh, 330px);
         min-height: 230px;
-        order: 1;
+        order: 2;
       }
 
       canvas {
@@ -395,7 +392,7 @@
       }
 
       .panel {
-        order: 2;
+        order: 4;
         grid-template-columns: repeat(3, 1fr);
         gap: 7px;
         padding: 8px;
@@ -423,9 +420,16 @@
       }
 
       .exit-grid button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         min-height: 42px;
         padding: 0 4px;
         font-size: 12px;
+      }
+
+      .exit-key {
+        display: none;
       }
 
       .keys {
@@ -436,49 +440,7 @@
         display: none;
       }
 
-      .is-in-battle .touch-actions {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-          "battle battle"
-          "pause reset";
-      }
-
-      .is-in-battle .primary-action {
-        min-height: 58px;
-        font-size: 18px;
-      }
-
-      .is-in-battle .slot-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .is-in-battle .slot-card {
-        grid-template-columns: auto 44px 1fr;
-        grid-template-rows: auto auto;
-        min-height: 72px;
-        column-gap: 8px;
-        text-align: left;
-      }
-
-      .is-in-battle .slot-card .slot-number {
-        grid-row: 1 / 3;
-      }
-
-      .is-in-battle .slot-sprite {
-        grid-row: 1 / 3;
-        width: 44px;
-        height: 44px;
-      }
-
-      .is-in-battle .slot-card strong,
-      .is-in-battle .slot-card span {
-        justify-self: start;
-      }
-
       .is-in-battle .slot-card.calibration-choice::after {
-        position: absolute;
-        right: 6px;
-        bottom: 5px;
         font-size: 10px;
       }
     }
