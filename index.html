@@ -47,7 +47,7 @@
 
     .topbar {
       display: grid;
-      grid-template-columns: 120px minmax(240px, 1fr) 96px 112px auto auto;
+      grid-template-columns: 120px minmax(240px, 1fr) 96px 112px;
       gap: 10px;
       align-items: end;
       padding: 0 12px 12px;
@@ -93,15 +93,15 @@
 
     .touch-actions {
       display: grid;
-      grid-template-columns: minmax(180px, 1fr) auto auto;
+      grid-template-columns: minmax(220px, 1fr) 110px 110px;
       gap: 8px;
     }
 
     .primary-action {
-      min-height: 48px;
+      min-height: 58px;
       border-color: #67cf67;
       background: #24513a;
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .primary-action:hover {
@@ -320,7 +320,10 @@
         position: sticky;
         top: 0;
         z-index: 10;
-        grid-template-columns: 1fr 76px 76px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "battle battle"
+          "pause reset";
         padding: 6px 0;
         background: #121821;
       }
@@ -328,6 +331,20 @@
       .touch-actions button {
         min-height: 46px;
         padding: 0 8px;
+      }
+
+      .primary-action {
+        grid-area: battle;
+        min-height: 76px;
+        font-size: 24px;
+      }
+
+      #mobile-pause {
+        grid-area: pause;
+      }
+
+      #mobile-reset {
+        grid-area: reset;
       }
 
       .slot-strip {
@@ -366,16 +383,18 @@
       }
 
       .wheel-viewport {
-        height: min(44vh, 360px);
-        min-height: 280px;
+        height: min(38vh, 330px);
+        min-height: 230px;
+        order: 1;
       }
 
       canvas {
-        height: min(66vh, 540px);
-        min-height: 420px;
+        height: min(58vh, 500px);
+        min-height: 380px;
       }
 
       .panel {
+        order: 2;
         grid-template-columns: repeat(3, 1fr);
         gap: 7px;
         padding: 8px;
@@ -416,6 +435,18 @@
         display: none;
       }
 
+      .is-in-battle .touch-actions {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "battle battle"
+          "pause reset";
+      }
+
+      .is-in-battle .primary-action {
+        min-height: 58px;
+        font-size: 18px;
+      }
+
       .is-in-battle .slot-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -453,15 +484,15 @@
 
     @media (max-width: 390px) {
       .touch-actions {
-        grid-template-columns: 1fr 66px 66px;
+        grid-template-columns: 1fr 1fr;
       }
 
       .touch-actions button {
-        font-size: 12px;
+        font-size: 14px;
       }
 
       .primary-action {
-        font-size: 16px;
+        font-size: 22px;
       }
     }
   </style>

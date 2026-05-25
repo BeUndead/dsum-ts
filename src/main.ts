@@ -40,8 +40,6 @@ app.innerHTML = `
           <label for="threshold">Threshold</label>
           <input id="threshold" type="number" min="0" max="1" step="0.01" value="${config.threshold}">
         </div>
-        <button id="pause" type="button">Pause</button>
-        <button id="reset" type="button">Reset</button>
       </section>
     </details>
 
@@ -97,9 +95,7 @@ const leadInput = document.getElementById("lead-level") as HTMLInputElement;
 const thresholdInput = document.getElementById("threshold") as HTMLInputElement;
 const slotStrip = document.getElementById("slot-strip") as HTMLElement;
 const battleButton = document.getElementById("battle-button") as HTMLButtonElement;
-const pauseButton = document.getElementById("pause") as HTMLButtonElement;
 const mobilePauseButton = document.getElementById("mobile-pause") as HTMLButtonElement;
-const resetButton = document.getElementById("reset") as HTMLButtonElement;
 const mobileResetButton = document.getElementById("mobile-reset") as HTMLButtonElement;
 const dsumValue = document.getElementById("dsum-value") as HTMLElement;
 const targetOdds = document.getElementById("target-odds") as HTMLElement;
@@ -131,9 +127,7 @@ thresholdInput.addEventListener("input", () => {
 
 const togglePause = () => driver.togglePause();
 const resetCalibration = () => driver.reset();
-pauseButton.addEventListener("click", togglePause);
 mobilePauseButton.addEventListener("click", togglePause);
-resetButton.addEventListener("click", resetCalibration);
 mobileResetButton.addEventListener("click", resetCalibration);
 battleButton.addEventListener("click", () => {
   if (driver.isInBattle()) {
@@ -236,7 +230,6 @@ function renderSlotStrip() {
 
 function refreshReadouts() {
   const pauseText = driver.paused ? "Resume" : "Pause";
-  pauseButton.textContent = pauseText;
   mobilePauseButton.textContent = pauseText;
   battleButton.textContent = driver.isInBattle() ? "In Battle" : "Enter Battle";
   battleButton.disabled = driver.isInBattle();
