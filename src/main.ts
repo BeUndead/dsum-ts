@@ -20,32 +20,43 @@ if (!app) {
 }
 
 app.innerHTML = `
-  <main class="shell">
-    <section class="topbar">
-      <div class="field">
-        <label for="game">Game</label>
-        <select id="game"></select>
-      </div>
-      <div class="field field-route">
-        <label for="route">Route</label>
-        <select id="route"></select>
-      </div>
-      <div class="field compact">
-        <label for="lead-level">Lead Lv.</label>
-        <input id="lead-level" type="number" min="1" max="100" value="${config.leadLevel}">
-      </div>
-      <div class="field compact">
-        <label for="threshold">Threshold</label>
-        <input id="threshold" type="number" min="0" max="1" step="0.01" value="${config.threshold}">
-      </div>
-      <button id="pause" type="button">Pause</button>
-      <button id="reset" type="button">Reset</button>
+  <main class="shell" id="shell">
+    <details class="settings-panel" id="settings-panel" open>
+      <summary>Settings</summary>
+      <section class="topbar">
+        <div class="field">
+          <label for="game">Game</label>
+          <select id="game"></select>
+        </div>
+        <div class="field field-route">
+          <label for="route">Route</label>
+          <select id="route"></select>
+        </div>
+        <div class="field compact">
+          <label for="lead-level">Lead Lv.</label>
+          <input id="lead-level" type="number" min="1" max="100" value="${config.leadLevel}">
+        </div>
+        <div class="field compact">
+          <label for="threshold">Threshold</label>
+          <input id="threshold" type="number" min="0" max="1" step="0.01" value="${config.threshold}">
+        </div>
+        <button id="pause" type="button">Pause</button>
+        <button id="reset" type="button">Reset</button>
+      </section>
+    </details>
+
+    <section class="touch-actions">
+      <button id="battle-button" class="primary-action" type="button">Enter Battle</button>
+      <button id="mobile-pause" type="button">Pause</button>
+      <button id="mobile-reset" type="button">Reset</button>
     </section>
 
     <section class="slot-strip" id="slot-strip"></section>
 
     <section class="stage">
-      <canvas id="wheel"></canvas>
+      <div class="wheel-viewport">
+        <canvas id="wheel"></canvas>
+      </div>
       <aside class="panel">
         <div class="readout">
           <span>DSum</span>
@@ -78,13 +89,18 @@ app.innerHTML = `
 
 const canvas = document.getElementById("wheel") as HTMLCanvasElement;
 const wheel = new DSumWheelCanvas(canvas, driver, config);
+const shell = document.getElementById("shell") as HTMLElement;
+const settingsPanel = document.getElementById("settings-panel") as HTMLDetailsElement;
 const gameSelect = document.getElementById("game") as HTMLSelectElement;
 const routeSelect = document.getElementById("route") as HTMLSelectElement;
 const leadInput = document.getElementById("lead-level") as HTMLInputElement;
 const thresholdInput = document.getElementById("threshold") as HTMLInputElement;
 const slotStrip = document.getElementById("slot-strip") as HTMLElement;
+const battleButton = document.getElementById("battle-button") as HTMLButtonElement;
 const pauseButton = document.getElementById("pause") as HTMLButtonElement;
+const mobilePauseButton = document.getElementById("mobile-pause") as HTMLButtonElement;
 const resetButton = document.getElementById("reset") as HTMLButtonElement;
+const mobileResetButton = document.getElementById("mobile-reset") as HTMLButtonElement;
 const dsumValue = document.getElementById("dsum-value") as HTMLElement;
 const targetOdds = document.getElementById("target-odds") as HTMLElement;
 const uncertainty = document.getElementById("uncertainty") as HTMLElement;
@@ -113,8 +129,18 @@ thresholdInput.addEventListener("input", () => {
   config.threshold = clampNumber(thresholdInput.valueAsNumber, 0, 1, 0.1);
 });
 
-pauseButton.addEventListener("click", () => driver.togglePause());
-resetButton.addEventListener("click", () => driver.reset());
+const togglePause = () => driver.togglePause();
+const resetCalibration = () => driver.reset();
+pauseButton.addEventListener("click", togglePause);
+mobilePauseButton.addEventListener("click", togglePause);
+resetButton.addEventListener("click", resetCalibration);
+mobileResetButton.addEventListener("click", resetCalibration);
+battleButton.addEventListener("click", () => {
+  if (driver.isInBattle()) {
+    return;
+  }
+  driver.battleEntered();
+});
 
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-exit]")) {
   button.addEventListener("click", () => driver.primeEncounterExitStrategy(button.dataset.exit as EncounterExitStrategy));
@@ -154,6 +180,7 @@ window.addEventListener("keydown", (event) => {
 renderSlotStrip();
 
 let last = performance.now();
+let lastBattleState = driver.isInBattle();
 function frame(now: number) {
   driver.update(now - last);
   last = now;
@@ -189,6 +216,12 @@ function renderSlotStrip() {
   for (const button of slotStrip.querySelectorAll<HTMLButtonElement>("[data-slot]")) {
     button.addEventListener("click", () => {
       const slot = Number(button.dataset.slot);
+      if (driver.isInBattle()) {
+        driver.calibrateOn(slot);
+        renderSlotStrip();
+        return;
+      }
+
       if (config.targets.has(slot)) {
         config.targets.delete(slot);
       } else {
@@ -202,7 +235,16 @@ function renderSlotStrip() {
 }
 
 function refreshReadouts() {
-  pauseButton.textContent = driver.paused ? "Resume" : "Pause";
+  const pauseText = driver.paused ? "Resume" : "Pause";
+  pauseButton.textContent = pauseText;
+  mobilePauseButton.textContent = pauseText;
+  battleButton.textContent = driver.isInBattle() ? "In Battle" : "Enter Battle";
+  battleButton.disabled = driver.isInBattle();
+  shell.classList.toggle("is-in-battle", driver.isInBattle());
+  if (lastBattleState !== driver.isInBattle()) {
+    lastBattleState = driver.isInBattle();
+    requestAnimationFrame(fitSpeciesLabels);
+  }
   dsumValue.textContent = driver.dsum.toFixed(1);
   targetOdds.textContent = `${Math.round(driver.getTargetCumulativeProbability() * 100)}%`;
   uncertainty.textContent = String(driver.uncertainty);
@@ -216,6 +258,7 @@ function refreshReadouts() {
       bar.title = `${Math.round(probabilities[slot] * 100)}%`;
     }
     button.classList.toggle("selected", config.targets.has(slot));
+    button.classList.toggle("calibration-choice", driver.isInBattle());
   }
 }
 
@@ -236,3 +279,7 @@ function fitSpeciesLabels() {
 }
 
 window.addEventListener("resize", fitSpeciesLabels);
+
+if (window.matchMedia("(max-width: 700px)").matches) {
+  settingsPanel.open = false;
+}
