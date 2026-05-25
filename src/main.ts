@@ -52,7 +52,7 @@ app.innerHTML = `
     <section class="slot-strip" id="slot-strip"></section>
 
     <section class="stage">
-      <div class="wheel-viewport">
+      <div class="wheel-viewport" id="wheel-viewport" title="Tap to enter battle">
         <canvas id="wheel"></canvas>
       </div>
       <aside class="panel">
@@ -75,7 +75,7 @@ app.innerHTML = `
           <button type="button" data-exit="POKEMON_RAN"><span class="exit-key">R</span> <span>Ran</span></button>
         </div>
         <div class="keys">
-          <span>Space battle entry</span>
+          <span>Space / wheel tap battle entry</span>
           <span>1-9 / 0 calibrate slot</span>
           <span>[ / ] step while paused</span>
           <span>Delete clear calibration</span>
@@ -89,6 +89,7 @@ const canvas = document.getElementById("wheel") as HTMLCanvasElement;
 const wheel = new DSumWheelCanvas(canvas, driver, config);
 const shell = document.getElementById("shell") as HTMLElement;
 const settingsPanel = document.getElementById("settings-panel") as HTMLDetailsElement;
+const wheelViewport = document.getElementById("wheel-viewport") as HTMLElement;
 const gameSelect = document.getElementById("game") as HTMLSelectElement;
 const routeSelect = document.getElementById("route") as HTMLSelectElement;
 const leadInput = document.getElementById("lead-level") as HTMLInputElement;
@@ -127,14 +128,16 @@ thresholdInput.addEventListener("input", () => {
 
 const togglePause = () => driver.togglePause();
 const resetCalibration = () => driver.reset();
-mobilePauseButton.addEventListener("click", togglePause);
-mobileResetButton.addEventListener("click", resetCalibration);
-battleButton.addEventListener("click", () => {
+const enterBattle = () => {
   if (driver.isInBattle()) {
     return;
   }
   driver.battleEntered();
-});
+};
+mobilePauseButton.addEventListener("click", togglePause);
+mobileResetButton.addEventListener("click", resetCalibration);
+battleButton.addEventListener("click", enterBattle);
+wheelViewport.addEventListener("pointerdown", enterBattle);
 
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-exit]")) {
   button.addEventListener("click", () => driver.primeEncounterExitStrategy(button.dataset.exit as EncounterExitStrategy));
@@ -148,7 +151,7 @@ window.addEventListener("keydown", (event) => {
 
   if (event.code === "Space") {
     event.preventDefault();
-    driver.battleEntered();
+    enterBattle();
   } else if (/^Digit[0-9]$/.test(event.code)) {
     const digit = Number(event.code.replace("Digit", ""));
     driver.calibrateOn(digit === 0 ? 9 : digit - 1);

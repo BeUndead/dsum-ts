@@ -50,8 +50,10 @@ export class DSumWheelCanvas {
     ctx.fillRect(0, 0, width, height);
 
     const cx = width / 2;
-    const cy = height / 2;
-    const radius = Math.min(width, height) * 0.39;
+    const pointerHeight = 32;
+    const topGap = 10;
+    const radius = Math.max(70, Math.min(width * 0.43, height * 0.43, (height - pointerHeight - topGap - 10) / 2));
+    const cy = radius + pointerHeight + topGap;
 
     ctx.save();
     ctx.translate(cx, cy);
@@ -172,7 +174,7 @@ export class DSumWheelCanvas {
   private drawInstructionChip(ctx: CanvasRenderingContext2D, width: number, height: number) {
     let lines: string[] = [];
     if (!this.driver.isInBattle() && this.driver.firstCalibration) {
-      lines = ["Get an encounter", "press Space at black screen"];
+      lines = ["Get an encounter", "tap wheel at black screen"];
     } else if (this.driver.isInBattle()) {
       lines = ["Press slot 1-9 or 0", "T/N/B/R sets battle exit"];
     }

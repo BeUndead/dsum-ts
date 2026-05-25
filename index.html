@@ -197,18 +197,6 @@
       border-color: #ff950b;
     }
 
-    .slot-card.calibration-choice::after {
-      content: "Tap if seen";
-      position: absolute;
-      z-index: 1;
-      right: 6px;
-      bottom: 5px;
-      color: #ffcf7a;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
     .stage {
       display: grid;
       grid-template-columns: minmax(360px, 1fr) 260px;
@@ -221,6 +209,8 @@
       border: 1px solid #3d4857;
       border-radius:8px;
       background: #28303a;
+      cursor: pointer;
+      touch-action: manipulation;
     }
 
     canvas {
@@ -305,13 +295,60 @@
         padding: 8px;
       }
 
+      .settings-panel {
+        position: fixed;
+        top: 8px;
+        right: 0;
+        z-index: 30;
+        width: min(86vw, 360px);
+        max-height: calc(100dvh - 16px);
+        overflow: visible;
+        transform: translateX(calc(100% - 1px));
+        transition: transform 180ms ease;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.36);
+      }
+
+      .settings-panel[open] {
+        transform: translateX(0);
+      }
+
       .settings-panel summary {
-        min-height: 42px;
-        padding: 11px 12px;
+        position: absolute;
+        top: 76px;
+        left: -44px;
+        display: grid;
+        width: 44px;
+        min-height: 68px;
+        padding: 0;
+        place-items: center;
+        border: 1px solid #3d4857;
+        border-right: 0;
+        border-radius: 8px 0 0 8px;
+        background: #222a34;
+        font-size: 0;
+        list-style: none;
+      }
+
+      .settings-panel summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .settings-panel summary::before {
+        content: "<";
+        color: #f8fafc;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .settings-panel[open] summary::before {
+        content: ">";
       }
 
       .topbar {
         grid-template-columns: 1fr;
+        max-height: calc(100dvh - 40px);
+        overflow: auto;
+        padding: 12px;
       }
 
       .field-route {
@@ -381,14 +418,14 @@
       }
 
       .wheel-viewport {
-        height: min(38vh, 330px);
-        min-height: 230px;
+        height: min(48vh, 400px);
+        min-height: 300px;
         order: 2;
       }
 
       canvas {
-        height: min(58vh, 500px);
-        min-height: 380px;
+        height: 100%;
+        min-height: 0;
       }
 
       .panel {
@@ -436,13 +473,6 @@
         display: none;
       }
 
-      .is-in-battle .settings-panel {
-        display: none;
-      }
-
-      .is-in-battle .slot-card.calibration-choice::after {
-        font-size: 10px;
-      }
     }
 
     @media (max-width: 390px) {
