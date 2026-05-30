@@ -130,11 +130,13 @@ const togglePause = () => driver.togglePause();
 const resetCalibration = () => driver.reset();
 const enterBattle = () => {
   if (driver.isInBattle()) {
+    driver.calibrate(-1);
     return;
   }
   driver.battleEntered();
 };
 mobilePauseButton.addEventListener("click", togglePause);
+mobileResetButton.addEventListener("click", resetCalibration);
 mobileResetButton.addEventListener("click", resetCalibration);
 battleButton.addEventListener("click", enterBattle);
 wheelViewport.addEventListener("pointerdown", enterBattle);
@@ -154,7 +156,7 @@ window.addEventListener("keydown", (event) => {
     enterBattle();
   } else if (/^Digit[0-9]$/.test(event.code)) {
     const digit = Number(event.code.replace("Digit", ""));
-    driver.calibrateOn(digit === 0 ? 9 : digit - 1);
+    driver.calibrate(digit === 0 ? 9 : digit - 1);
   } else if (event.key === "Delete") {
     driver.reset();
   } else if (event.key === "p" || event.key === "P") {
@@ -214,7 +216,7 @@ function renderSlotStrip() {
     button.addEventListener("click", () => {
       const slot = Number(button.dataset.slot);
       if (driver.isInBattle()) {
-        driver.calibrateOn(slot);
+        driver.primeCalibrationSlot(slot);
         renderSlotStrip();
         return;
       }
@@ -241,7 +243,7 @@ function refreshReadouts() {
     lastBattleState = driver.isInBattle();
     requestAnimationFrame(fitSpeciesLabels);
   }
-  dsumValue.textContent = driver.dsum.toFixed(1);
+  dsumValue.textContent = Math.round(driver.dsum);
   targetOdds.textContent = `${Math.round(driver.getTargetCumulativeProbability() * 100)}%`;
   uncertainty.textContent = String(driver.uncertainty);
 
@@ -255,6 +257,7 @@ function refreshReadouts() {
     }
     button.classList.toggle("selected", config.targets.has(slot));
     button.classList.toggle("calibration-choice", driver.isInBattle());
+    button.classList.toggle("most-likely", driver.isMostLikely(slot));
   }
 }
 

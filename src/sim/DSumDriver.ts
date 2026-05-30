@@ -22,6 +22,7 @@ export class DSumDriver {
   private slotProbCacheCalibrationRef: Map<number, number> | null = null;
   private slotProbCacheU = -1;
   private slotProbCache = Array(10).fill(0);
+  private calibrationSlot = -1;
 
   readonly slotComputer: DSumSlotComputer;
 
@@ -69,6 +70,20 @@ export class DSumDriver {
     this.invalidateProbabilityCache();
   }
 
+  mostLikelySlot(): number {
+    let maxProb = -1;
+    let maxProbIndex = -1;
+    let prob = -1;
+    for(let i = 0; i < this.battleEntrySlotProbabilities.length; i++){
+      prob = this.battleEntrySlotProbabilities[i];
+      if (prob > maxProb) {
+        maxProb = prob;
+        maxProbIndex = i;
+      }
+    }
+    return maxProbIndex;
+  }
+
   battleEntered() {
     if (this.isInBattle()) {
       return;
@@ -87,16 +102,31 @@ export class DSumDriver {
 
     this.suggested = getSuggestionRange(this.dsumRangeAtBattleStart, this.route);
     this.battleEntrySlotProbabilities = normalizeSuggestionWeightsToSlotProbabilities(this.suggested);
+    this.calibrationSlot = this.mostLikelySlot();
     this.invalidateProbabilityCache();
   }
 
-  calibrateOn(slot: number) {
+  calibrationSlot(): number {
+    return this.calibrationSlot;
+  }
+
+  primeCalibrationSlot(slot: number) {
+    if (!this.isInBattle()) {
+      return;
+    }
+    this.calibrationSlot = slot;
+  }
+
+  calibrate(slot: number) {
     if (!this.isInBattle() || this.dsumAtBattleStart == null) {
       return;
     }
 
+    if (slot !== -1) {
+      this.calibrationSlot = slot;
+    }
     const diffFromBattle = this.dsum - this.dsumAtBattleStart;
-    const battleExit = onBattleExit(this.game, this.route, this.config.leadLevel, slot, this.exitStrategy);
+    const battleExit = onBattleExit(this.game, this.route, this.config.leadLevel, this.calibrationSlot, this.exitStrategy);
     const updatedCalibrationRange =
       !this.firstCalibration && this.dsumRangeAtBattleStart != null
         ? overlapOrUseNewRange(applyOffsetToKeys(this.dsumRangeAtBattleStart, battleExit.entryDelta), battleExit.suggestions)
@@ -111,6 +141,7 @@ export class DSumDriver {
     this.exitStrategy = "PLAYER_GOT_AWAY";
     this.suggested = null;
     this.firstCalibration = false;
+    this.calibrationSlot = -1;
     this.invalidateProbabilityCache();
   }
 
@@ -132,6 +163,10 @@ export class DSumDriver {
 
   isInBattle(): boolean {
     return this.dsumAtBattleStart != null;
+  }
+
+  isMostLikely(slot: number): boolean {
+    return this.calibrationSlot === slot;
   }
 
   isUncalibrated(): boolean {
