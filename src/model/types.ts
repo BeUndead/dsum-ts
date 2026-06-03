@@ -22,6 +22,7 @@ export interface SelectionConfig {
   targets: Set<number>;
   leadLevel: number;
   threshold: number;
+  pikaLead: boolean;
 }
 
 export const GAMES: Array<{ id: Game; name: string }> = [

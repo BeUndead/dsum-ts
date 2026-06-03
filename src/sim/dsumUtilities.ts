@@ -1,5 +1,9 @@
-import { ENCOUNTER_SLOTS, type RouteData } from "../model/types";
-import { DSUM_RANGE, IN_BATTLE_CYCLE_FRAMES, ONE_FRAME_MS, OVERWORLD_CYCLE_FRAMES } from "./constants";
+import { ENCOUNTER_SLOTS, type SelectionConfig, type RouteData } from "../model/types";
+import {
+  DSUM_RANGE,
+  ONE_FRAME_MS,
+  timingConstantsForConfig,
+} from "./constants";
 import { mod, modInt } from "./math";
 
 export function slotForHRandomAdd(hRandomAdd: number): number | null {
@@ -95,15 +99,17 @@ export function overlapOrUseNewRange(previous: Map<number, number> | null, next:
   return reduced;
 }
 
-export function overworldDelta(ms: number, game: string): number {
-  const sign = game === "YELLOW" ? 1 : -1;
+export function overworldDelta(ms: number, config: SelectionConfig): number {
+  const constants = timingConstantsForConfig(config);
+  const sign = config.game === "YELLOW" ? 1 : -1;
   const frames = ms / ONE_FRAME_MS;
-  return (frames / OVERWORLD_CYCLE_FRAMES) * DSUM_RANGE * sign;
+  return (frames / constants.OVERWORLD_CYCLE_FRAMES) * DSUM_RANGE * sign;
 }
 
-export function inBattleDelta(ms: number): number {
+export function inBattleDelta(ms: number, config: SelectionConfig): number {
+  const constants = timingConstantsForConfig(config);
   const frames = ms / ONE_FRAME_MS;
-  return (frames / IN_BATTLE_CYCLE_FRAMES) * DSUM_RANGE;
+  return (frames / constants.IN_BATTLE_CYCLE_FRAMES) * DSUM_RANGE;
 }
 
 function gcd(a: number, b: number): number {

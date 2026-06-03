@@ -22,7 +22,7 @@ export class DSumDriver {
   private slotProbCacheCalibrationRef: Map<number, number> | null = null;
   private slotProbCacheU = -1;
   private slotProbCache = Array(10).fill(0);
-  private calibrationSlot = -1;
+  private selectedCalibrationSlot = -1;
 
   readonly slotComputer: DSumSlotComputer;
 
@@ -53,7 +53,7 @@ export class DSumDriver {
       return;
     }
 
-    const delta = this.isInBattle() ? inBattleDelta(ms) : overworldDelta(ms, this.game);
+    const delta = this.isInBattle() ? inBattleDelta(ms, this.config) : overworldDelta(ms, this.config);
     this.dsum = mod(this.dsum + delta);
   }
 
@@ -74,7 +74,7 @@ export class DSumDriver {
     let maxProb = -1;
     let maxProbIndex = -1;
     let prob = -1;
-    for(let i = 0; i < this.battleEntrySlotProbabilities.length; i++){
+    for (let i = 0; i < this.battleEntrySlotProbabilities.length; i++){
       prob = this.battleEntrySlotProbabilities[i];
       if (prob > maxProb) {
         maxProb = prob;
@@ -90,7 +90,7 @@ export class DSumDriver {
     }
 
     const dsum = mod(Math.round(this.dsum));
-    const battleEntry = onBattleEntry(this.game, this.route, dsum);
+    const battleEntry = onBattleEntry(this.config, this.route, dsum);
     this.dsum = battleEntry.atNow;
     this.dsumAtBattleStart = battleEntry.atGeneration;
 
@@ -102,19 +102,19 @@ export class DSumDriver {
 
     this.suggested = getSuggestionRange(this.dsumRangeAtBattleStart, this.route);
     this.battleEntrySlotProbabilities = normalizeSuggestionWeightsToSlotProbabilities(this.suggested);
-    this.calibrationSlot = this.mostLikelySlot();
+    this.selectedCalibrationSlot = this.mostLikelySlot();
     this.invalidateProbabilityCache();
   }
 
   calibrationSlot(): number {
-    return this.calibrationSlot;
+    return this.selectedCalibrationSlot;
   }
 
   primeCalibrationSlot(slot: number) {
     if (!this.isInBattle()) {
       return;
     }
-    this.calibrationSlot = slot;
+    this.selectedCalibrationSlot = slot;
   }
 
   calibrate(slot: number) {
@@ -123,10 +123,16 @@ export class DSumDriver {
     }
 
     if (slot !== -1) {
-      this.calibrationSlot = slot;
+      this.selectedCalibrationSlot = slot;
     }
     const diffFromBattle = this.dsum - this.dsumAtBattleStart;
-    const battleExit = onBattleExit(this.game, this.route, this.config.leadLevel, this.calibrationSlot, this.exitStrategy);
+    const battleExit = onBattleExit(
+      this.config,
+      this.route,
+      this.config.leadLevel,
+      this.selectedCalibrationSlot,
+      this.exitStrategy,
+    );
     const updatedCalibrationRange =
       !this.firstCalibration && this.dsumRangeAtBattleStart != null
         ? overlapOrUseNewRange(applyOffsetToKeys(this.dsumRangeAtBattleStart, battleExit.entryDelta), battleExit.suggestions)
@@ -141,7 +147,7 @@ export class DSumDriver {
     this.exitStrategy = "PLAYER_GOT_AWAY";
     this.suggested = null;
     this.firstCalibration = false;
-    this.calibrationSlot = -1;
+    this.selectedCalibrationSlot = -1;
     this.invalidateProbabilityCache();
   }
 
@@ -158,6 +164,7 @@ export class DSumDriver {
     this.battleEntrySlotProbabilities = null;
     this.exitStrategy = "PLAYER_GOT_AWAY";
     this.suggested = null;
+    this.selectedCalibrationSlot = -1;
     this.invalidateProbabilityCache();
   }
 
@@ -166,7 +173,7 @@ export class DSumDriver {
   }
 
   isMostLikely(slot: number): boolean {
-    return this.calibrationSlot === slot;
+    return this.selectedCalibrationSlot === slot;
   }
 
   isUncalibrated(): boolean {
@@ -224,13 +231,13 @@ export class DSumDriver {
 
     switch (this.exitStrategy) {
       case "POKEMON_RAN":
-        return "[R] Pokemon Ran";
+        return "Pokemon Ran";
       case "POKEMON_JOINED_PARTY":
-        return "[T] Joined Party";
+        return "Joined Party";
       case "POKEMON_SENT_TO_BOX":
-        return "[B] Sent to Box";
+        return "Sent to Box";
       case "POKEMON_NICKNAMED_JOINED_PARTY":
-        return "[N] Nicknamed";
+        return "Nicknamed";
       default:
         return "Player Ran";
     }

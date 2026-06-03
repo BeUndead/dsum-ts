@@ -48,7 +48,7 @@
 
     .topbar {
       display: grid;
-      grid-template-columns: 120px minmax(240px, 1fr) 96px 112px;
+      grid-template-columns: 120px minmax(240px, 1fr) 96px 112px 108px;
       gap: 10px;
       align-items: end;
       padding: 0 12px 12px;
@@ -90,6 +90,38 @@
 
     button:hover {
       background: #2b3541;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .pika-lead-toggle {
+      display: flex;
+      min-height: 36px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      justify-content: center;
+    }
+
+    .pika-lead-toggle img {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: grayscale(1) brightness(0.88);
+    }
+
+    .pika-lead-toggle[aria-pressed="true"] {
+      border-color: #f7d43b;
+      background: #5a4815;
+      color: #fff6bf;
+    }
+
+    .pika-lead-toggle[aria-pressed="true"] img {
+      filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.28));
     }
 
     .touch-actions {

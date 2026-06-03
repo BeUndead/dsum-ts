@@ -1,22 +1,62 @@
-import type { EncounterExitStrategy } from "../model/types";
+import type { EncounterExitStrategy, Game, SelectionConfig } from "../model/types";
 
 export const FRAME_RATE = 59.7275;
 export const ONE_FRAME_MS = 1000 / FRAME_RATE;
 export const DSUM_RANGE = 256;
+export const YELLOW_PIKA_LEAD_PAUSE_FRAMES = 25;
 
-export const OVERWORLD_CYCLE_FRAMES = 373.4160401;
-export const IN_BATTLE_CYCLE_FRAMES = 791.5555556;
+interface TimingConstants {
+  OVERWORLD_CYCLE_FRAMES: number;
+  IN_BATTLE_CYCLE_FRAMES: number;
+  HORIZONTAL_BLINDS_FRAMES: number;
+  VERTICAL_BLINDS_FRAMES: number;
+  SPLIT_SPIRAL_FRAMES: number;
+  FULL_SPIRAL_FRAMES: number;
+  BATTLE_ENTRY_OVERWORLD_FRAMES: number;
+  EXIT_FRAMES: Record<EncounterExitStrategy, number>;
+}
 
-export const HORIZONTAL_BLINDS_FRAMES = 70;
-export const VERTICAL_BLINDS_FRAMES = 64;
-export const SPLIT_SPIRAL_FRAMES = 110;
-export const FULL_SPIRAL_FRAMES = 142;
-export const BATTLE_ENTRY_OVERWORLD_FRAMES = 8;
-
-export const EXIT_FRAMES: Record<EncounterExitStrategy, number> = {
-  PLAYER_GOT_AWAY: 37,
-  POKEMON_RAN: 77,
-  POKEMON_SENT_TO_BOX: 22,
-  POKEMON_JOINED_PARTY: 37,
-  POKEMON_NICKNAMED_JOINED_PARTY: 30,
+const RED_BLUE_TIMING_CONSTANTS: TimingConstants = {
+  OVERWORLD_CYCLE_FRAMES: 373.4160401,
+  IN_BATTLE_CYCLE_FRAMES: 791.5555556,
+  HORIZONTAL_BLINDS_FRAMES: 70,
+  VERTICAL_BLINDS_FRAMES: 64,
+  SPLIT_SPIRAL_FRAMES: 110,
+  FULL_SPIRAL_FRAMES: 142,
+  BATTLE_ENTRY_OVERWORLD_FRAMES: 8,
+  EXIT_FRAMES: {
+    PLAYER_GOT_AWAY: 37,
+    POKEMON_RAN: 77,
+    POKEMON_SENT_TO_BOX: 22,
+    POKEMON_JOINED_PARTY: 37,
+    POKEMON_NICKNAMED_JOINED_PARTY: 30,
+  },
 };
+
+const YELLOW_TIMING_CONSTANTS: TimingConstants = {
+  OVERWORLD_CYCLE_FRAMES: 800.973,
+  IN_BATTLE_CYCLE_FRAMES: 768.75,
+  HORIZONTAL_BLINDS_FRAMES: 70,
+  VERTICAL_BLINDS_FRAMES: 64,
+  SPLIT_SPIRAL_FRAMES: 110,
+  FULL_SPIRAL_FRAMES: 142,
+  BATTLE_ENTRY_OVERWORLD_FRAMES: 8,
+  EXIT_FRAMES: {
+    PLAYER_GOT_AWAY: 37,
+    POKEMON_RAN: 77,
+    POKEMON_SENT_TO_BOX: 22,
+    POKEMON_JOINED_PARTY: 37,
+    POKEMON_NICKNAMED_JOINED_PARTY: 30,
+  },
+};
+
+function timingConstantsForGame(game: Game): TimingConstants {
+  if (game !== "YELLOW") {
+    return RED_BLUE_TIMING_CONSTANTS;
+  }
+  return YELLOW_TIMING_CONSTANTS;
+}
+
+export function timingConstantsForConfig(config: SelectionConfig): TimingConstants {
+  return timingConstantsForGame(config.game);
+}

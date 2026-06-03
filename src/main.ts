@@ -11,6 +11,7 @@ const config: SelectionConfig = {
   targets: new Set([8]),
   leadLevel: 70,
   threshold: 0.1,
+  pikaLead: false,
 };
 
 const driver = new DSumDriver(config, (routeId) => ROUTES_BY_ID.get(routeId) ?? ROUTES[0]);
@@ -39,6 +40,13 @@ app.innerHTML = `
         <div class="field compact">
           <label for="threshold">Threshold</label>
           <input id="threshold" type="number" min="0" max="1" step="0.01" value="${config.threshold}">
+        </div>
+        <div class="field compact" id="pika-lead-field">
+          <label>Yellow</label>
+          <button id="pika-lead" class="pika-lead-toggle" type="button" aria-pressed="${config.pikaLead}" title="Pika Lead">
+            <img src="${assetBase}sprites/y/25.png" alt="">
+            <span>Pika Lead</span>
+          </button>
         </div>
       </section>
     </details>
@@ -94,6 +102,8 @@ const gameSelect = document.getElementById("game") as HTMLSelectElement;
 const routeSelect = document.getElementById("route") as HTMLSelectElement;
 const leadInput = document.getElementById("lead-level") as HTMLInputElement;
 const thresholdInput = document.getElementById("threshold") as HTMLInputElement;
+const pikaLeadField = document.getElementById("pika-lead-field") as HTMLElement;
+const pikaLeadButton = document.getElementById("pika-lead") as HTMLButtonElement;
 const slotStrip = document.getElementById("slot-strip") as HTMLElement;
 const battleButton = document.getElementById("battle-button") as HTMLButtonElement;
 const mobilePauseButton = document.getElementById("mobile-pause") as HTMLButtonElement;
@@ -110,6 +120,10 @@ routeSelect.value = config.routeId;
 
 gameSelect.addEventListener("change", () => {
   config.game = gameSelect.value as SelectionConfig["game"];
+  if (config.game !== "YELLOW") {
+    config.pikaLead = false;
+  }
+  refreshPikaLeadControl();
   renderSlotStrip();
 });
 
@@ -126,6 +140,14 @@ thresholdInput.addEventListener("input", () => {
   config.threshold = clampNumber(thresholdInput.valueAsNumber, 0, 1, 0.1);
 });
 
+pikaLeadButton.addEventListener("click", () => {
+  if (config.game !== "YELLOW") {
+    return;
+  }
+  config.pikaLead = !config.pikaLead;
+  refreshPikaLeadControl();
+});
+
 const togglePause = () => driver.togglePause();
 const resetCalibration = () => driver.reset();
 const enterBattle = () => {
@@ -136,7 +158,6 @@ const enterBattle = () => {
   driver.battleEntered();
 };
 mobilePauseButton.addEventListener("click", togglePause);
-mobileResetButton.addEventListener("click", resetCalibration);
 mobileResetButton.addEventListener("click", resetCalibration);
 battleButton.addEventListener("click", enterBattle);
 wheelViewport.addEventListener("pointerdown", enterBattle);
@@ -177,6 +198,7 @@ window.addEventListener("keydown", (event) => {
 });
 
 renderSlotStrip();
+refreshPikaLeadControl();
 
 let last = performance.now();
 let lastBattleState = driver.isInBattle();
@@ -259,6 +281,13 @@ function refreshReadouts() {
     button.classList.toggle("calibration-choice", driver.isInBattle());
     button.classList.toggle("most-likely", driver.isMostLikely(slot));
   }
+}
+
+function refreshPikaLeadControl() {
+  const isYellow = config.game === "YELLOW";
+  pikaLeadField.hidden = !isYellow;
+  pikaLeadButton.disabled = !isYellow;
+  pikaLeadButton.setAttribute("aria-pressed", String(isYellow && config.pikaLead));
 }
 
 function clampNumber(value: number, min: number, max: number, fallback: number): number {
