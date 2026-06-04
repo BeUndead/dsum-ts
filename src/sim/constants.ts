@@ -1,4 +1,4 @@
-import type { EncounterExitStrategy, Game, SelectionConfig } from "../model/types";
+import type { EncounterExitStrategy, Game, RouteData, SelectionConfig } from "../model/types";
 
 export const FRAME_RATE = 59.7275;
 export const ONE_FRAME_MS = 1000 / FRAME_RATE;
@@ -59,4 +59,12 @@ function timingConstantsForGame(game: Game): TimingConstants {
 
 export function timingConstantsForConfig(config: SelectionConfig): TimingConstants {
   return timingConstantsForGame(config.game);
+}
+
+export function encounterRateForConfig(config: SelectionConfig, route: RouteData): number {
+  const encounterRate = route.encounterRates[config.game];
+  if (encounterRate == null) {
+    throw new Error(`${route.name} has no encounter rate for ${config.game}.`);
+  }
+  return encounterRate;
 }

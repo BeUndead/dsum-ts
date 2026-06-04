@@ -1,5 +1,4 @@
 import type { EncounterExitStrategy, Game, RouteData, SelectionConfig } from "../model/types";
-import { DSUM_RANGE } from "./constants";
 import { getSuggestionRange, inBattleDelta, overlapOrUseNewRange, overworldDelta } from "./dsumUtilities";
 import { circularMean, circularMinDiff, mod } from "./math";
 import { applyOffsetToKeys, onBattleEntry, onBattleExit, type BattleEntry } from "./rotationUtilities";
@@ -30,7 +29,7 @@ export class DSumDriver {
     private config: SelectionConfig,
     private getRoute: (routeId: string) => RouteData,
   ) {
-    this.slotComputer = new DSumSlotComputer(this.route);
+    this.slotComputer = new DSumSlotComputer(config, this.route);
   }
 
   get route(): RouteData {
@@ -42,6 +41,13 @@ export class DSumDriver {
   }
 
   setRoute(routeId: string) {
+    this.config.routeId = routeId;
+    this.slotComputer.setRoute(this.route);
+    this.invalidateProbabilityCache();
+  }
+
+  setGame(game: Game, routeId = this.config.routeId) {
+    this.config.game = game;
     this.config.routeId = routeId;
     this.slotComputer.setRoute(this.route);
     this.invalidateProbabilityCache();
@@ -74,7 +80,9 @@ export class DSumDriver {
     let maxProb = -1;
     let maxProbIndex = -1;
     let prob = -1;
-    for (let i = 0; i < this.battleEntrySlotProbabilities.length; i++){
+    // @ts-ignore
+    for (let i = 0; i < this.battleEntrySlotProbabilities.length; i++) {
+      // @ts-ignore
       prob = this.battleEntrySlotProbabilities[i];
       if (prob > maxProb) {
         maxProb = prob;
@@ -100,7 +108,7 @@ export class DSumDriver {
       this.dsumRangeAtBattleStart = this.hypothesisMapForBattleEntry(battleEntry);
     }
 
-    this.suggested = getSuggestionRange(this.dsumRangeAtBattleStart, this.route);
+    this.suggested = getSuggestionRange(this.dsumRangeAtBattleStart, this.config, this.route);
     this.battleEntrySlotProbabilities = normalizeSuggestionWeightsToSlotProbabilities(this.suggested);
     this.selectedCalibrationSlot = this.mostLikelySlot();
     this.invalidateProbabilityCache();
@@ -193,7 +201,7 @@ export class DSumDriver {
       this.dsumCalibrationRange !== this.slotProbCacheCalibrationRef
     ) {
       const guess = this.hypothesisMapForBattleEntry({ atGeneration: modCenter, atNow: modCenter });
-      const probabilities = normalizeSuggestionWeightsToSlotProbabilities(getSuggestionRange(guess, this.route));
+      const probabilities = normalizeSuggestionWeightsToSlotProbabilities(getSuggestionRange(guess, this.config, this.route));
       this.slotProbCache = probabilities ?? [...this.slotComputer.getSlotProbability(modCenter)];
       this.slotProbCacheCenter = modCenter;
       this.slotProbCacheCalibrationRef = this.dsumCalibrationRange;

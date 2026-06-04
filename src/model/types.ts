@@ -12,8 +12,9 @@ export interface RouteData {
   id: string;
   name: string;
   isBlinds: boolean;
-  encounterRate: number;
-  encounters: Record<Game, Encounter[]>;
+  games: Game[];
+  encounterRates: Partial<Record<Game, number>>;
+  encounters: Partial<Record<Game, Encounter[]>>;
 }
 
 export interface SelectionConfig {

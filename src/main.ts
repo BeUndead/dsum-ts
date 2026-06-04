@@ -1,12 +1,14 @@
-import { ROUTES, ROUTES_BY_ID } from "./data/routes";
+import { ROUTES } from "./data/routes";
 import { ENCOUNTER_SLOTS, GAMES, type EncounterExitStrategy, type SelectionConfig } from "./model/types";
 import { DSumDriver } from "./sim/DSumDriver";
 import { DSumWheelCanvas, SLOT_COLORS } from "./ui/DSumWheelCanvas";
 
-const defaultRoute = ROUTES_BY_ID.get("SAFARI_ZONE_CENTER") ?? ROUTES[0];
+// @ts-ignore
 const assetBase = import.meta.env.BASE_URL;
+const initialGame: SelectionConfig["game"] = "RED";
+const defaultRoute = routeForGame("SAFARI_ZONE_CENTER", initialGame);
 const config: SelectionConfig = {
-  game: "RED",
+  game: initialGame,
   routeId: defaultRoute.id,
   targets: new Set([8]),
   leadLevel: 70,
@@ -14,7 +16,7 @@ const config: SelectionConfig = {
   pikaLead: false,
 };
 
-const driver = new DSumDriver(config, (routeId) => ROUTES_BY_ID.get(routeId) ?? ROUTES[0]);
+const driver = new DSumDriver(config, (routeId) => routeForGame(routeId, config.game));
 const app = document.getElementById("app");
 if (!app) {
   throw new Error("Missing #app");
@@ -115,11 +117,13 @@ const uncertainty = document.getElementById("uncertainty") as HTMLElement;
 gameSelect.innerHTML = GAMES.map((game) => `<option value="${game.id}">${game.name}</option>`).join("");
 gameSelect.value = config.game;
 
-routeSelect.innerHTML = ROUTES.map((route) => `<option value="${route.id}">${route.name}</option>`).join("");
-routeSelect.value = config.routeId;
+refreshRouteOptions();
 
 gameSelect.addEventListener("change", () => {
-  config.game = gameSelect.value as SelectionConfig["game"];
+  const game = gameSelect.value as SelectionConfig["game"];
+  const route = routeForGame(config.routeId, game);
+  driver.setGame(game, route.id);
+  refreshRouteOptions();
   if (config.game !== "YELLOW") {
     config.pikaLead = false;
   }
@@ -214,7 +218,7 @@ requestAnimationFrame(frame);
 
 function renderSlotStrip() {
   const route = driver.route;
-  const encounters = route.encounters[config.game];
+  const encounters = route.encounters[config.game] ?? [];
 
   slotStrip.innerHTML = ENCOUNTER_SLOTS.map((slot) => {
     const encounter = encounters[slot.id];
@@ -255,9 +259,22 @@ function renderSlotStrip() {
   fitSpeciesLabels();
 }
 
+function refreshRouteOptions() {
+  const routes = routesForGame(config.game);
+  const selectedRoute = routes.find((route) => route.id === config.routeId) ?? routes[0];
+  if (selectedRoute == null) {
+    throw new Error(`No routes are available for ${config.game}.`);
+  }
+
+  routeSelect.innerHTML = routes.map((route) => `<option value="${route.id}">${route.name}</option>`).join("");
+  routeSelect.value = selectedRoute.id;
+  if (config.routeId !== selectedRoute.id) {
+    driver.setRoute(selectedRoute.id);
+  }
+}
+
 function refreshReadouts() {
-  const pauseText = driver.paused ? "Resume" : "Pause";
-  mobilePauseButton.textContent = pauseText;
+  mobilePauseButton.textContent = driver.paused ? "Resume" : "Pause";
   battleButton.textContent = driver.isInBattle() ? "In Battle" : "Enter Battle";
   battleButton.disabled = driver.isInBattle();
   shell.classList.toggle("is-in-battle", driver.isInBattle());
@@ -265,6 +282,7 @@ function refreshReadouts() {
     lastBattleState = driver.isInBattle();
     requestAnimationFrame(fitSpeciesLabels);
   }
+  // @ts-ignore
   dsumValue.textContent = Math.round(driver.dsum);
   targetOdds.textContent = `${Math.round(driver.getTargetCumulativeProbability() * 100)}%`;
   uncertainty.textContent = String(driver.uncertainty);
@@ -281,6 +299,19 @@ function refreshReadouts() {
     button.classList.toggle("calibration-choice", driver.isInBattle());
     button.classList.toggle("most-likely", driver.isMostLikely(slot));
   }
+}
+
+function routesForGame(game: SelectionConfig["game"]) {
+  return ROUTES.filter((route) => route.games.includes(game));
+}
+
+function routeForGame(routeId: string, game: SelectionConfig["game"]) {
+  const routes = routesForGame(game);
+  const route = routes.find((candidate) => candidate.id === routeId) ?? routes[0];
+  if (route == null) {
+    throw new Error(`No routes are available for ${game}.`);
+  }
+  return route;
 }
 
 function refreshPikaLeadControl() {

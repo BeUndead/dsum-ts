@@ -2,9 +2,10 @@ import { ENCOUNTER_SLOTS, type SelectionConfig, type RouteData } from "../model/
 import {
   DSUM_RANGE,
   ONE_FRAME_MS,
+  encounterRateForConfig,
   timingConstantsForConfig,
 } from "./constants";
-import { mod, modInt } from "./math";
+import { modInt } from "./math";
 
 export function slotForHRandomAdd(hRandomAdd: number): number | null {
   const value = modInt(hRandomAdd);
@@ -12,15 +13,16 @@ export function slotForHRandomAdd(hRandomAdd: number): number | null {
   return slot?.id ?? null;
 }
 
-export function calibrationRangeForSlot(slotId: number, route: RouteData): Map<number, number> {
+export function calibrationRangeForSlot(slotId: number, config: SelectionConfig, route: RouteData): Map<number, number> {
   const slot = ENCOUNTER_SLOTS[slotId];
   const result = new Map<number, number>();
+  const encounterRate = encounterRateForConfig(config, route);
 
-  for (let dsum = slot.min; dsum < slot.max + route.encounterRate; dsum++) {
+  for (let dsum = slot.min; dsum < slot.max + encounterRate; dsum++) {
     const frequency =
       Math.max(
         0,
-        Math.min(route.encounterRate - 1, dsum - slot.min) - Math.max(0, dsum - slot.max) + 1,
+        Math.min(encounterRate - 1, dsum - slot.min) - Math.max(0, dsum - slot.max) + 1,
       );
     result.set(modInt(dsum), frequency);
   }
@@ -29,13 +31,22 @@ export function calibrationRangeForSlot(slotId: number, route: RouteData): Map<n
 }
 
 export function getSuggestionRange(dsum: number, encounterRate: number): Map<number, number>;
-export function getSuggestionRange(dsum: Map<number, number>, route: RouteData): Map<number, number>;
+export function getSuggestionRange(dsum: Map<number, number>, config: SelectionConfig, route: RouteData): Map<number, number>;
 export function getSuggestionRange(
   dsumOrRange: number | Map<number, number>,
-  routeOrRate: RouteData | number,
+  configOrRate: SelectionConfig | number,
+  route?: RouteData,
 ): Map<number, number> {
   if (typeof dsumOrRange === "number") {
-    const encounterRate = typeof routeOrRate === "number" ? routeOrRate : routeOrRate.encounterRate;
+    const encounterRate =
+      typeof configOrRate === "number"
+        ? configOrRate
+        : route != null
+          ? encounterRateForConfig(configOrRate, route)
+          : null;
+    if (encounterRate == null) {
+      throw new Error("A route is required when getting suggestions from a config.");
+    }
     const result = new Map<number, number>();
     const hRandomAddMin = dsumOrRange - encounterRate + 1;
     for (let hRandomAdd = hRandomAddMin; hRandomAdd <= dsumOrRange; hRandomAdd++) {
@@ -47,13 +58,13 @@ export function getSuggestionRange(
     return result;
   }
 
-  if (typeof routeOrRate === "number") {
+  if (typeof configOrRate === "number" || route == null) {
     throw new Error("A route is required when getting suggestions for a weighted DSum range.");
   }
 
   const result = new Map<number, number>();
   for (const [dsum, dsumFrequency] of dsumOrRange) {
-    const dsumResult = getSuggestionRange(dsum, routeOrRate.encounterRate);
+    const dsumResult = getSuggestionRange(dsum, encounterRateForConfig(configOrRate, route));
     for (const [slot, frequency] of dsumResult) {
       result.set(slot, (result.get(slot) ?? 0) + frequency * dsumFrequency);
     }

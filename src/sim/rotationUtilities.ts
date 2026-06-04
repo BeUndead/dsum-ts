@@ -59,7 +59,7 @@ export function onBattleExit(
   exit: EncounterExitStrategy,
 ): BattleExit {
   const constants = timingConstantsForConfig(config);
-  const encounter = route.encounters[config.game][calibratedSlot];
+  const encounter = route.encounters[config.game]?.[calibratedSlot];
   const assumedEntryFrames = route.isBlinds ? constants.HORIZONTAL_BLINDS_FRAMES : constants.SPLIT_SPIRAL_FRAMES;
   const actualEntryFrames =
     encounter && leadLevel <= encounter.level - 3
@@ -69,7 +69,7 @@ export function onBattleExit(
       : assumedEntryFrames;
   const entryDSumDelta =
     ((actualEntryFrames - assumedEntryFrames) / constants.IN_BATTLE_CYCLE_FRAMES) * DSUM_RANGE;
-  const calibrationForSlot = calibrationRangeForSlot(calibratedSlot, route);
+  const calibrationForSlot = calibrationRangeForSlot(calibratedSlot, config, route);
   const inBattleExitFrames = constants.EXIT_FRAMES[exit];
   const rateForBattleCycle = (1 / constants.IN_BATTLE_CYCLE_FRAMES) * DSUM_RANGE;
   const sign = config.game === "YELLOW" ? 1 : -1;

@@ -7,7 +7,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_1",
     "name": "Route 1",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -171,7 +172,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_2",
     "name": "Route 2",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -335,7 +337,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_3",
     "name": "Route 3",
     "isBlinds": false,
-    "encounterRate": 20,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 20, "BLUE": 20, "YELLOW": 20 },
     "encounters": {
       "BLUE": [
         {
@@ -499,7 +502,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_4",
     "name": "Route 4",
     "isBlinds": false,
-    "encounterRate": 20,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 20, "BLUE": 20, "YELLOW": 20 },
     "encounters": {
       "BLUE": [
         {
@@ -663,7 +667,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_5",
     "name": "Route 5",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -827,7 +832,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_6",
     "name": "Route 6",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -988,10 +994,72 @@ export const ROUTES: RouteData[] = [
     }
   },
   {
+    "id": "ROUTE_6_SURF",
+    "name": "Route 6 - Surfing",
+    "isBlinds": false,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 3 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Psyduck",
+          "dex": 54,
+          "level": 15
+        },
+        {
+          "species": "Golduck",
+          "dex": 55,
+          "level": 15
+        }
+      ]
+    }
+  },
+  {
     "id": "ROUTE_7",
     "name": "Route 7",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -1155,7 +1223,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_8",
     "name": "Route 8",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -1319,7 +1388,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_9",
     "name": "Route 9",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -1483,7 +1553,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_10",
     "name": "Route 10",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -1647,7 +1718,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_11",
     "name": "Route 11",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -1811,7 +1883,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_12",
     "name": "Route 12",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -1967,6 +2040,67 @@ export const ROUTES: RouteData[] = [
           "species": "Farfetch'd",
           "dex": 83,
           "level": 31
+        }
+      ]
+    }
+  },
+  {
+    "id": "ROUTE_12_SURF",
+    "name": "Route 12 - Surfing",
+    "isBlinds": false,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 3 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowbro",
+          "dex": 80,
+          "level": 15
+        },
+        {
+          "species": "Slowbro",
+          "dex": 80,
+          "level": 20
         }
       ]
     }
@@ -1975,7 +2109,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_13",
     "name": "Route 13",
     "isBlinds": false,
-    "encounterRate": 20,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 20, "BLUE": 20, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -2136,10 +2271,72 @@ export const ROUTES: RouteData[] = [
     }
   },
   {
+    "id": "ROUTE_13_SURF",
+    "name": "Route 12 - Surfing",
+    "isBlinds": false,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 3 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowpoke",
+          "dex": 79,
+          "level": 15
+        },
+        {
+          "species": "Slowbro",
+          "dex": 80,
+          "level": 15
+        },
+        {
+          "species": "Slowbro",
+          "dex": 80,
+          "level": 20
+        }
+      ]
+    }
+  },
+  {
     "id": "ROUTE_14",
     "name": "Route 14",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -2303,7 +2500,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_15",
     "name": "Route 15",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -2467,7 +2665,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_16",
     "name": "Route 16",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -2631,7 +2830,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_17",
     "name": "Route 17",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -2795,7 +2995,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_18",
     "name": "Route 18",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -2956,10 +3157,133 @@ export const ROUTES: RouteData[] = [
     }
   },
   {
+    "id": "ROUTE_19_SURF",
+    "name": "Route 19 - Surfing",
+    "isBlinds": false,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 5 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 5
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 10
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 15
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 5
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 10
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 15
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 20
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 35
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 40
+        }
+      ]
+    }
+  },
+  {
+    "id": "ROUTE_20_SURF",
+    "name": "Route 20 - Surfing",
+    "isBlinds": false,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 5 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 5
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 10
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 15
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 5
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 10
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 15
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 20
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 35
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 40
+        }
+      ]
+    }
+  },
+  {
     "id": "ROUTE_21",
     "name": "Route 21",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -3123,7 +3447,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_22",
     "name": "Route 22",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -3287,7 +3612,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_23",
     "name": "Route 23",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -3451,7 +3777,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_24",
     "name": "Route 24",
     "isBlinds": false,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -3615,7 +3942,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROUTE_25",
     "name": "Route 25",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -3779,7 +4107,8 @@ export const ROUTES: RouteData[] = [
     "id": "VIRIDIAN_FOREST",
     "name": "Viridian Forest",
     "isBlinds": true,
-    "encounterRate": 8,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 8, "BLUE": 8, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -3943,7 +4272,8 @@ export const ROUTES: RouteData[] = [
     "id": "MT_MOON_1F",
     "name": "Mt. Moon (1F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -4107,7 +4437,8 @@ export const ROUTES: RouteData[] = [
     "id": "MT_MOON_B1F",
     "name": "Mt. Moon (B1F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -4271,7 +4602,8 @@ export const ROUTES: RouteData[] = [
     "id": "MT_MOON_B2F",
     "name": "Mt. Moon (B2F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -4435,7 +4767,8 @@ export const ROUTES: RouteData[] = [
     "id": "DIGLETTS_CAVE",
     "name": "Diglett's Cave",
     "isBlinds": false,
-    "encounterRate": 20,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 20, "BLUE": 20, "YELLOW": 20 },
     "encounters": {
       "BLUE": [
         {
@@ -4599,7 +4932,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROCK_TUNNEL_1F",
     "name": "Rock Tunnel (1F)",
     "isBlinds": true,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -4763,7 +5097,8 @@ export const ROUTES: RouteData[] = [
     "id": "ROCK_TUNNEL_B1F",
     "name": "Rock Tunnel (B1F)",
     "isBlinds": true,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -4927,7 +5262,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_TOWER_3F",
     "name": "Rock Tunnel (3F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -5091,7 +5427,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_TOWER_4F",
     "name": "Rock Tunnel (4F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -5255,7 +5592,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_TOWER_5F",
     "name": "Pokémon Tower (5F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -5419,7 +5757,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_TOWER_6F",
     "name": "Pokémon Tower (6F)",
     "isBlinds": true,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -5583,7 +5922,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_TOWER_7F",
     "name": "Pokémon Tower (7F)",
     "isBlinds": true,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 20 },
     "encounters": {
       "BLUE": [
         {
@@ -5747,7 +6087,8 @@ export const ROUTES: RouteData[] = [
     "id": "SAFARI_ZONE_CENTER",
     "name": "Safari Zone (Centre)",
     "isBlinds": true,
-    "encounterRate": 30,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 30, "BLUE": 30, "YELLOW": 30 },
     "encounters": {
       "BLUE": [
         {
@@ -5911,7 +6252,8 @@ export const ROUTES: RouteData[] = [
     "id": "SAFARI_ZONE_EAST",
     "name": "Safari Zone (East)",
     "isBlinds": true,
-    "encounterRate": 30,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 30, "BLUE": 30, "YELLOW": 30 },
     "encounters": {
       "BLUE": [
         {
@@ -6075,7 +6417,8 @@ export const ROUTES: RouteData[] = [
     "id": "SAFARI_ZONE_2",
     "name": "Safari Zone (North)",
     "isBlinds": true,
-    "encounterRate": 30,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 30, "BLUE": 30, "YELLOW": 30 },
     "encounters": {
       "BLUE": [
         {
@@ -6239,7 +6582,8 @@ export const ROUTES: RouteData[] = [
     "id": "SAFARI_ZONE_3",
     "name": "Safari Zone (West)",
     "isBlinds": true,
-    "encounterRate": 30,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 30, "BLUE": 30, "YELLOW": 30 },
     "encounters": {
       "BLUE": [
         {
@@ -6403,7 +6747,8 @@ export const ROUTES: RouteData[] = [
     "id": "POWER_PLANT",
     "name": "Power Plant",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -6567,7 +6912,8 @@ export const ROUTES: RouteData[] = [
     "id": "SEAFOAM_ISLANDS_1F",
     "name": "Seafoam Islands (1F)",
     "isBlinds": true,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -6731,7 +7077,8 @@ export const ROUTES: RouteData[] = [
     "id": "SEAFOAM_ISLANDS_B1F",
     "name": "Seafoam Islands (B1F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -6895,7 +7242,8 @@ export const ROUTES: RouteData[] = [
     "id": "SEAFOAM_ISLANDS_B2F",
     "name": "Seafoam Islands (B2F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -7059,7 +7407,8 @@ export const ROUTES: RouteData[] = [
     "id": "SEAFOAM_ISLANDS_B3F",
     "name": "Seafoam Islands (B3F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -7220,10 +7569,72 @@ export const ROUTES: RouteData[] = [
     }
   },
   {
+    "id": "SEAFOAM_ISLANDS_B3F_SURF",
+    "name": "Seafoam Islands (B3F) - Surfing",
+    "isBlinds": true,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 5 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 25
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 20
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 35
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 40
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        }
+      ]
+    }
+  },
+  {
     "id": "SEAFOAM_ISLANDS_B4F",
     "name": "Seafoam Islands (B4F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -7384,10 +7795,72 @@ export const ROUTES: RouteData[] = [
     }
   },
   {
+    "id": "SEAFOAM_ISLANDS_B4F_SURF",
+    "name": "Seafoam Islands (B4F) - Surfing",
+    "isBlinds": true,
+    "games": ["YELLOW"],
+    "encounterRates": { "YELLOW": 5 },
+    "encounters": {
+      "YELLOW": [
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 25
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 20
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 35
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Tentacool",
+          "dex": 72,
+          "level": 40
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        },
+        {
+          "species": "Staryu",
+          "dex": 120,
+          "level": 30
+        }
+      ]
+    }
+  },
+  {
     "id": "POKEMON_MANSION_1F",
     "name": "Pokémon Mansion (1F)",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -7551,7 +8024,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_MANSION_2F",
     "name": "Pokémon Mansion (2F)",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -7715,7 +8189,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_MANSION_3F",
     "name": "Pokémon Mansion (3F)",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -7879,7 +8354,8 @@ export const ROUTES: RouteData[] = [
     "id": "POKEMON_MANSION_B1F",
     "name": "Pokémon Mansion (B1F)",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -8043,7 +8519,8 @@ export const ROUTES: RouteData[] = [
     "id": "VICTORY_ROAD_1F",
     "name": "Victory Road (1F)",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -8207,7 +8684,8 @@ export const ROUTES: RouteData[] = [
     "id": "VICTORY_ROAD_2F",
     "name": "Victory Road (2F)",
     "isBlinds": false,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -8371,7 +8849,8 @@ export const ROUTES: RouteData[] = [
     "id": "VICTORY_ROAD_3F",
     "name": "Victory Road (3F)",
     "isBlinds": false,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -8535,7 +9014,8 @@ export const ROUTES: RouteData[] = [
     "id": "CERULEAN_CAVE_1F",
     "name": "Cerulean Cave (1F)",
     "isBlinds": true,
-    "encounterRate": 10,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
     "encounters": {
       "BLUE": [
         {
@@ -8699,7 +9179,8 @@ export const ROUTES: RouteData[] = [
     "id": "CERULEAN_CAVE_2F",
     "name": "Cerulean Cave (2F)",
     "isBlinds": true,
-    "encounterRate": 15,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 15, "BLUE": 15, "YELLOW": 15 },
     "encounters": {
       "BLUE": [
         {
@@ -8863,7 +9344,8 @@ export const ROUTES: RouteData[] = [
     "id": "CERULEAN_CAVE_B1F",
     "name": "Cerulean Cave (B1F)",
     "isBlinds": true,
-    "encounterRate": 25,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 25, "BLUE": 25, "YELLOW": 25 },
     "encounters": {
       "BLUE": [
         {
@@ -9027,7 +9509,8 @@ export const ROUTES: RouteData[] = [
     "id": "SURFING",
     "name": "Surfing",
     "isBlinds": false,
-    "encounterRate": 5,
+    "games": ["RED", "BLUE"],
+    "encounterRates": { "RED": 5, "BLUE": 5 },
     "encounters": {
       "BLUE": [
         {
@@ -9132,15 +9615,15 @@ export const ROUTES: RouteData[] = [
           "dex": 72,
           "level": 40
         }
-      ],
-      "YELLOW": []
+      ]
     }
   },
   {
     "id": "EVEN_DEMO",
     "name": "Demo (Even)",
     "isBlinds": false,
-    "encounterRate": 256,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 256, "BLUE": 256, "YELLOW": 256 },
     "encounters": {
       "BLUE": [
         {
@@ -9253,7 +9736,8 @@ export const ROUTES: RouteData[] = [
     "id": "FLAT_DEMO",
     "name": "Demo (Flat)",
     "isBlinds": false,
-    "encounterRate": 1,
+    "games": ["RED", "BLUE", "YELLOW"],
+    "encounterRates": { "RED": 1, "BLUE": 1, "YELLOW": 1 },
     "encounters": {
       "BLUE": [
         {

@@ -1,21 +1,31 @@
-import type { RouteData } from "../model/types";
-import { DSUM_RANGE } from "./constants";
+import type { RouteData, SelectionConfig } from "../model/types";
+import { DSUM_RANGE, encounterRateForConfig } from "./constants";
 import { getSuggestionRange } from "./dsumUtilities";
 
 export class DSumSlotComputer {
   private readonly slots: number[][];
+  private encounterRate: number;
 
-  constructor(private route: RouteData) {
+  constructor(
+    private config: SelectionConfig,
+    private route: RouteData,
+  ) {
     this.slots = Array.from({ length: DSUM_RANGE }, () => Array(10).fill(0));
+    this.encounterRate = encounterRateForConfig(config, route);
     this.recomputeSlots();
   }
 
   setRoute(route: RouteData) {
-    if (this.route.encounterRate === route.encounterRate) {
-      this.route = route;
+    this.route = route;
+    this.recomputeSlotsIfEncounterRateChanged();
+  }
+
+  private recomputeSlotsIfEncounterRateChanged() {
+    const encounterRate = encounterRateForConfig(this.config, this.route);
+    if (this.encounterRate === encounterRate) {
       return;
     }
-    this.route = route;
+    this.encounterRate = encounterRate;
     this.recomputeSlots();
   }
 
@@ -30,7 +40,7 @@ export class DSumSlotComputer {
   private recomputeSlots() {
     for (let dsum = 0; dsum < DSUM_RANGE; dsum++) {
       this.slots[dsum].fill(0);
-      const suggestions = getSuggestionRange(dsum, this.route.encounterRate);
+      const suggestions = getSuggestionRange(dsum, this.encounterRate);
       let sum = 0;
       for (const frequency of suggestions.values()) {
         sum += frequency;
