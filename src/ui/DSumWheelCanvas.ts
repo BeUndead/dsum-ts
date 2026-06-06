@@ -56,8 +56,8 @@ export class DSumWheelCanvas {
     const radius = Math.max(
       70,
       Math.min(
-        width * 0.6,
-        visibleHeight / (2 * visibleWheelFraction),
+        width * 0.45,
+        visibleHeight / (1 + visibleWheelFraction),
       ),
     );
     const cy = topGap + radius;
@@ -74,7 +74,6 @@ export class DSumWheelCanvas {
   }
 
   private drawProbabilityWheel(ctx: CanvasRenderingContext2D, radius: number) {
-    const table = this.driver.slotComputer.snapshot();
     const slice = (Math.PI * 2) / DSUM_RANGE;
     const overlap = (0.15 * Math.PI) / 180;
 
@@ -83,8 +82,9 @@ export class DSumWheelCanvas {
       const start = -Math.PI / 2 - (dsum + 1) * slice - overlap;
       const end = -Math.PI / 2 - dsum * slice + overlap;
 
+      const probabilities = this.driver.slotComputer.getSlotProbability(dsum);
       for (let slot = 9; slot >= 0; slot--) {
-        const probability = table[dsum][slot];
+        const probability = probabilities[slot];
         if (probability <= 0) {
           continue;
         }
@@ -144,16 +144,6 @@ export class DSumWheelCanvas {
     ctx.stroke();
   }
 
-  private drawPointer(ctx: CanvasRenderingContext2D, cx: number, cy: number, radius: number) {
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - radius - 32);
-    ctx.lineTo(cx - 13, cy - radius - 7);
-    ctx.lineTo(cx + 13, cy - radius - 7);
-    ctx.closePath();
-    ctx.fillStyle = "#e94545";
-    ctx.fill();
-  }
-
   private drawCenterChip(ctx: CanvasRenderingContext2D, cx: number, cy: number) {
     const state = this.driver.stateText();
     const sub = this.driver.stateSubText();
@@ -171,17 +161,6 @@ export class DSumWheelCanvas {
     ctx.fillStyle = shouldSearch ? "rgba(103, 207, 103, 0.82)" : "rgba(238, 242, 247, 0.65)";
     ctx.fill();
     ctx.strokeStyle = shouldSearch ? "rgba(225, 255, 225, 0.85)" : "rgba(40, 48, 58, 0.45)";
-    ctx.stroke();
-
-    ctx.save();
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, 58, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(238, 242, 247, 0.65)";
-    ctx.fill();
-    ctx.strokeStyle = "rgba(40, 48, 58, 0.45)";
     ctx.stroke();
 
     ctx.fillStyle = "#18202a";

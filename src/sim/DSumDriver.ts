@@ -188,12 +188,12 @@ export class DSumDriver {
     return !this.isInBattle() && this.firstCalibration;
   }
 
-  getCurrentEncounterSlotProbabilities(): number[] {
+  getCurrentEncounterSlotProbabilities(): readonly number[] {
     if (this.isInBattle() && this.battleEntrySlotProbabilities != null) {
-      return [...this.battleEntrySlotProbabilities];
+      return this.battleEntrySlotProbabilities;
     }
 
-    const modCenter = mod(Math.round(this.dsum));
+    const modCenter = mod(Math.round(this.dsum) | 0);
     const uKey = Math.max(1, this.uncertainty);
     if (
       modCenter !== this.slotProbCacheCenter ||
@@ -202,13 +202,13 @@ export class DSumDriver {
     ) {
       const guess = this.hypothesisMapForBattleEntry({ atGeneration: modCenter, atNow: modCenter });
       const probabilities = normalizeSuggestionWeightsToSlotProbabilities(getSuggestionRange(guess, this.config, this.route));
-      this.slotProbCache = probabilities ?? [...this.slotComputer.getSlotProbability(modCenter)];
+      this.slotProbCache = probabilities ?? this.slotComputer.getSlotProbability(modCenter);
       this.slotProbCacheCenter = modCenter;
       this.slotProbCacheCalibrationRef = this.dsumCalibrationRange;
       this.slotProbCacheU = uKey;
     }
 
-    return [...this.slotProbCache];
+    return this.slotProbCache;
   }
 
   getTargetCumulativeProbability(): number {

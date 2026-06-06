@@ -29,8 +29,9 @@ export class DSumSlotComputer {
     this.recomputeSlots();
   }
 
-  getSlotProbability(dsum: number): number[] {
-    return this.slots[((Math.round(dsum) % DSUM_RANGE) + DSUM_RANGE) % DSUM_RANGE];
+  getSlotProbability(dsum: number): readonly number[] {
+    const idx = (Math.round(dsum) | 0) & (DSUM_RANGE - 1);
+    return this.slots[idx];
   }
 
   snapshot(): number[][] {
@@ -39,7 +40,8 @@ export class DSumSlotComputer {
 
   private recomputeSlots() {
     for (let dsum = 0; dsum < DSUM_RANGE; dsum++) {
-      this.slots[dsum].fill(0);
+      const row = this.slots[dsum];
+      row.fill(0);
       const suggestions = getSuggestionRange(dsum, this.encounterRate);
       let sum = 0;
       for (const frequency of suggestions.values()) {
@@ -49,7 +51,7 @@ export class DSumSlotComputer {
         continue;
       }
       for (const [slot, frequency] of suggestions) {
-        this.slots[dsum][slot] = frequency / sum;
+        row[slot] = frequency / sum;
       }
     }
   }
