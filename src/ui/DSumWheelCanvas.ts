@@ -50,18 +50,8 @@ export class DSumWheelCanvas {
     ctx.fillRect(0, 0, width, height);
 
     const cx = width / 2;
-    const topGap = 10;
-    const visibleWheelFraction = 0.7;
-    const visibleHeight = height - topGap;
-    const idealRadius = visibleHeight / (2 * visibleWheelFraction);
-    const radius = Math.max(
-      70,
-      idealRadius,
-    );
-    const cy = Math.max(
-      radius + topGap,
-      height - radius * (2 * visibleWheelFraction - 1),
-    );
+    const cy = height / 2;
+    const radius = Math.max(70, Math.min(width, height) * 0.42);
 
     ctx.save();
     ctx.translate(cx, cy);
