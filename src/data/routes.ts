@@ -2272,7 +2272,7 @@ export const ROUTES: RouteData[] = [
   },
   {
     "id": "ROUTE_13_SURF",
-    "name": "Route 12 - Surfing",
+    "name": "Route 13 - Surfing",
     "isBlinds": false,
     "games": ["YELLOW"],
     "encounterRates": { "YELLOW": 3 },
