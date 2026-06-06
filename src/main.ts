@@ -54,7 +54,6 @@ app.innerHTML = `
     </details>
 
     <section class="touch-actions">
-      <button id="battle-button" class="primary-action" type="button">Enter Battle</button>
       <button id="mobile-pause" type="button">Pause</button>
       <button id="mobile-reset" type="button">Reset</button>
     </section>
@@ -107,7 +106,6 @@ const thresholdInput = document.getElementById("threshold") as HTMLInputElement;
 const pikaLeadField = document.getElementById("pika-lead-field") as HTMLElement;
 const pikaLeadButton = document.getElementById("pika-lead") as HTMLButtonElement;
 const slotStrip = document.getElementById("slot-strip") as HTMLElement;
-const battleButton = document.getElementById("battle-button") as HTMLButtonElement;
 const mobilePauseButton = document.getElementById("mobile-pause") as HTMLButtonElement;
 const mobileResetButton = document.getElementById("mobile-reset") as HTMLButtonElement;
 const dsumValue = document.getElementById("dsum-value") as HTMLElement;
@@ -163,7 +161,6 @@ const enterBattle = () => {
 };
 mobilePauseButton.addEventListener("click", togglePause);
 mobileResetButton.addEventListener("click", resetCalibration);
-battleButton.addEventListener("click", enterBattle);
 wheelViewport.addEventListener("pointerdown", enterBattle);
 
 for (const button of document.querySelectorAll<HTMLButtonElement>("[data-exit]")) {
@@ -275,8 +272,6 @@ function refreshRouteOptions() {
 
 function refreshReadouts() {
   mobilePauseButton.textContent = driver.paused ? "Resume" : "Pause";
-  battleButton.textContent = driver.isInBattle() ? "In Battle" : "Enter Battle";
-  battleButton.disabled = driver.isInBattle();
   shell.classList.toggle("is-in-battle", driver.isInBattle());
   if (lastBattleState !== driver.isInBattle()) {
     lastBattleState = driver.isInBattle();
