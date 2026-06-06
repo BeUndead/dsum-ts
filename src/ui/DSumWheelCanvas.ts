@@ -53,14 +53,15 @@ export class DSumWheelCanvas {
     const topGap = 10;
     const visibleWheelFraction = 0.7;
     const visibleHeight = height - topGap;
+    const idealRadius = visibleHeight / (2 * visibleWheelFraction);
     const radius = Math.max(
       70,
       Math.min(
         width * 0.45,
-        visibleHeight / (1 + visibleWheelFraction),
+        idealRadius,
       ),
     );
-    const cy = topGap + radius;
+    const cy = height - radius * (2 * visibleWheelFraction - 1);
 
     ctx.save();
     ctx.translate(cx, cy);
