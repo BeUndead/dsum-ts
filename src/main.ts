@@ -79,10 +79,10 @@ app.innerHTML = `
           <strong id="uncertainty">1</strong>
         </div>
         <div class="exit-grid">
-          <button type="button" data-exit="POKEMON_JOINED_PARTY"><span class="exit-key">T</span> <span>Joined</span></button>
-          <button type="button" data-exit="POKEMON_NICKNAMED_JOINED_PARTY"><span class="exit-key">N</span> <span>Nickname</span></button>
-          <button type="button" data-exit="POKEMON_SENT_TO_BOX"><span class="exit-key">B</span> <span>Box</span></button>
-          <button type="button" data-exit="POKEMON_RAN"><span class="exit-key">R</span> <span>Ran</span></button>
+          <button type="button" data-exit="POKEMON_JOINED_PARTY"><span class="exit-key">T</span> <span>Joined Party</span></button>
+          <button type="button" data-exit="POKEMON_NICKNAMED_JOINED_PARTY"><span class="exit-key">N</span> <span>Nicknamed (party)</span></button>
+          <button type="button" data-exit="POKEMON_SENT_TO_BOX"><span class="exit-key">B</span> <span>Sent to Box</span></button>
+          <button type="button" data-exit="POKEMON_RAN"><span class="exit-key">R</span> <span>Pokémon Ran</span></button>
         </div>
         <div class="keys">
           <span>Space / wheel tap battle entry</span>

@@ -50,10 +50,17 @@ export class DSumWheelCanvas {
     ctx.fillRect(0, 0, width, height);
 
     const cx = width / 2;
-    const pointerHeight = 32;
     const topGap = 10;
-    const radius = Math.max(70, Math.min(width * 0.43, height * 0.43, (height - pointerHeight - topGap - 10) / 2));
-    const cy = radius + pointerHeight + topGap;
+    const visibleWheelFraction = 0.7;
+    const visibleHeight = height - topGap;
+    const radius = Math.max(
+      70,
+      Math.min(
+        width * 0.6,
+        visibleHeight / (2 * visibleWheelFraction),
+      ),
+    );
+    const cy = topGap + radius;
 
     ctx.save();
     ctx.translate(cx, cy);
@@ -62,7 +69,6 @@ export class DSumWheelCanvas {
     ctx.restore();
 
     this.drawUncertaintyWedge(ctx, cx, cy, radius);
-    this.drawPointer(ctx, cx, cy, radius);
     this.drawCenterChip(ctx, cx, cy);
     this.drawInstructionChip(ctx, width, height);
   }
@@ -151,6 +157,10 @@ export class DSumWheelCanvas {
   private drawCenterChip(ctx: CanvasRenderingContext2D, cx: number, cy: number) {
     const state = this.driver.stateText();
     const sub = this.driver.stateSubText();
+    const shouldSearch =
+      !this.driver.isInBattle() &&
+      !this.driver.firstCalibration &&
+      this.driver.getTargetCumulativeProbability() >= this.config.threshold;
 
     ctx.save();
     ctx.textAlign = "center";
@@ -158,7 +168,18 @@ export class DSumWheelCanvas {
 
     ctx.beginPath();
     ctx.arc(cx, cy, 58, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(238, 242, 247, 0.88)";
+    ctx.fillStyle = shouldSearch ? "rgba(103, 207, 103, 0.82)" : "rgba(238, 242, 247, 0.65)";
+    ctx.fill();
+    ctx.strokeStyle = shouldSearch ? "rgba(225, 255, 225, 0.85)" : "rgba(40, 48, 58, 0.45)";
+    ctx.stroke();
+
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 58, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(238, 242, 247, 0.65)";
     ctx.fill();
     ctx.strokeStyle = "rgba(40, 48, 58, 0.45)";
     ctx.stroke();
@@ -176,7 +197,7 @@ export class DSumWheelCanvas {
     if (!this.driver.isInBattle() && this.driver.firstCalibration) {
       lines = ["Get an encounter", "tap wheel at black screen"];
     } else if (this.driver.isInBattle()) {
-      lines = ["Press slot 1-9 or 0", "T/N/B/R sets battle exit"];
+      lines = ["Tap encountered slot", "select encounter end type", "tap wheel on final textbox"];
     }
     if (lines.length === 0) {
       return;
@@ -192,7 +213,7 @@ export class DSumWheelCanvas {
     const x = 18;
     const y = height - boxHeight - 18;
 
-    ctx.fillStyle = "rgba(238, 242, 247, 0.86)";
+    ctx.fillStyle = "rgba(238, 242, 247, 0.65)";
     roundRect(ctx, x, y, boxWidth, boxHeight, 7);
     ctx.fill();
     ctx.strokeStyle = "rgba(40, 48, 58, 0.25)";
