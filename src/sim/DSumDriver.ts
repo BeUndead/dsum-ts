@@ -15,12 +15,12 @@ export class DSumDriver {
   private dsumAtBattleStart: number | null = null;
   private dsumCalibrationRange: Map<number, number> | null = null;
   private dsumRangeAtBattleStart: Map<number, number> | null = null;
-  private battleEntrySlotProbabilities: number[] | null = null;
+  private battleEntrySlotProbabilities: readonly number[] | null = null;
   private targetProbabilities: number | null = null;
   private slotProbCacheCenter = Number.MIN_SAFE_INTEGER;
   private slotProbCacheCalibrationRef: Map<number, number> | null = null;
   private slotProbCacheU = -1;
-  private slotProbCache = Array(10).fill(0);
+  private slotProbCache: readonly number[] = Array(10).fill(0);
   private selectedCalibrationSlot = -1;
 
   readonly slotComputer: DSumSlotComputer;
@@ -59,7 +59,7 @@ export class DSumDriver {
       return;
     }
 
-    const delta = this.isInBattle() ? inBattleDelta(ms, this.config) : overworldDelta(ms, this.config);
+    const delta = this.isInBattle() ? inBattleDelta(ms, this.config) : overworldDelta(ms, this.config, this.route);
     this.dsum = mod(this.dsum + delta);
   }
 

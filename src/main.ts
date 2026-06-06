@@ -14,6 +14,7 @@ const config: SelectionConfig = {
   leadLevel: 70,
   threshold: 0.1,
   pikaLead: false,
+  npcOnScreen: false,
 };
 
 const driver = new DSumDriver(config, (routeId) => routeForGame(routeId, config.game));
@@ -48,6 +49,9 @@ app.innerHTML = `
           <button id="pika-lead" class="pika-lead-toggle" type="button" aria-pressed="${config.pikaLead}" title="Pika Lead">
             <img src="${assetBase}sprites/y/25.png" alt="">
             <span>Pika Lead</span>
+          </button>
+          <button id="npc-on-screen" class="pika-lead-toggle" type="button" aria-pressed="${config.npcOnScreen}" title="On-Screen NPC">
+            <span>On-Screen NPC</span>
           </button>
         </div>
       </section>
@@ -105,6 +109,7 @@ const leadInput = document.getElementById("lead-level") as HTMLInputElement;
 const thresholdInput = document.getElementById("threshold") as HTMLInputElement;
 const pikaLeadField = document.getElementById("pika-lead-field") as HTMLElement;
 const pikaLeadButton = document.getElementById("pika-lead") as HTMLButtonElement;
+const npcOnScreenButton = document.getElementById("npc-on-screen") as HTMLButtonElement;
 const slotStrip = document.getElementById("slot-strip") as HTMLElement;
 const mobilePauseButton = document.getElementById("mobile-pause") as HTMLButtonElement;
 const mobileResetButton = document.getElementById("mobile-reset") as HTMLButtonElement;
@@ -124,8 +129,9 @@ gameSelect.addEventListener("change", () => {
   refreshRouteOptions();
   if (config.game !== "YELLOW") {
     config.pikaLead = false;
+    config.npcOnScreen = false;
   }
-  refreshPikaLeadControl();
+  refreshYellowControls();
   renderSlotStrip();
 });
 
@@ -147,7 +153,15 @@ pikaLeadButton.addEventListener("click", () => {
     return;
   }
   config.pikaLead = !config.pikaLead;
-  refreshPikaLeadControl();
+  refreshYellowControls();
+});
+
+npcOnScreenButton.addEventListener("click", () => {
+  if (config.game !== "YELLOW") {
+    return;
+  }
+  config.npcOnScreen = !config.npcOnScreen;
+  refreshYellowControls();
 });
 
 const togglePause = () => driver.togglePause();
@@ -199,7 +213,7 @@ window.addEventListener("keydown", (event) => {
 });
 
 renderSlotStrip();
-refreshPikaLeadControl();
+refreshYellowControls();
 
 let last = performance.now();
 let lastBattleState = driver.isInBattle();
@@ -309,11 +323,13 @@ function routeForGame(routeId: string, game: SelectionConfig["game"]) {
   return route;
 }
 
-function refreshPikaLeadControl() {
+function refreshYellowControls() {
   const isYellow = config.game === "YELLOW";
   pikaLeadField.hidden = !isYellow;
   pikaLeadButton.disabled = !isYellow;
   pikaLeadButton.setAttribute("aria-pressed", String(isYellow && config.pikaLead));
+  npcOnScreenButton.disabled = !isYellow;
+  npcOnScreenButton.setAttribute("aria-pressed", String(isYellow && config.npcOnScreen));
 }
 
 function clampNumber(value: number, min: number, max: number, fallback: number): number {

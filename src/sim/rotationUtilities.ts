@@ -21,11 +21,13 @@ export function onBattleEntry(config: SelectionConfig, route: RouteData, dsum: n
   const inBattleFrames = animationFrames - constants.BATTLE_ENTRY_OVERWORLD_FRAMES;
   const sign = config.game === "YELLOW" ? 1 : -1;
 
-  const simDeltaFromOverworld = ((sign * animationFrames) / constants.OVERWORLD_CYCLE_FRAMES) * DSUM_RANGE;
+  const overworldCycle = route.isSafari ? constants.OVERWORLD_CYCLE_FRAMES
+      : (config.npcOnScreen ? constants.OVERWORLD_CYCLE_FRAMES : constants.OVERWORLD_WITHOUT_NPC_CYCLE_FRAMES);
+  const simDeltaFromOverworld = ((sign * animationFrames) / overworldCycle) * DSUM_RANGE;
   const dsumAtBattleEntry = dsum - simDeltaFromOverworld;
 
   const deltaFromOverworld =
-    ((sign * constants.BATTLE_ENTRY_OVERWORLD_FRAMES) / constants.OVERWORLD_CYCLE_FRAMES) * DSUM_RANGE;
+    ((sign * constants.BATTLE_ENTRY_OVERWORLD_FRAMES) / overworldCycle) * DSUM_RANGE;
   const deltaFromBattle = (inBattleFrames / constants.IN_BATTLE_CYCLE_FRAMES) * DSUM_RANGE;
   const pikaLeadPauseDelta =
     config.game === "YELLOW" && config.pikaLead
@@ -73,9 +75,11 @@ export function onBattleExit(
   const inBattleExitFrames = constants.EXIT_FRAMES[exit];
   const rateForBattleCycle = (1 / constants.IN_BATTLE_CYCLE_FRAMES) * DSUM_RANGE;
   const sign = config.game === "YELLOW" ? 1 : -1;
+  const overworldCycle = route.isSafari ? constants.OVERWORLD_CYCLE_FRAMES
+      : (config.npcOnScreen ? constants.OVERWORLD_CYCLE_FRAMES : constants.OVERWORLD_WITHOUT_NPC_CYCLE_FRAMES);
   const simDeltaFromBattleExit =
     (inBattleExitFrames - 1) *
-    (rateForBattleCycle - (sign / constants.OVERWORLD_CYCLE_FRAMES) * DSUM_RANGE);
+    (rateForBattleCycle - (sign / overworldCycle) * DSUM_RANGE);
   const mean = circularMean(calibrationForSlot);
 
   return {

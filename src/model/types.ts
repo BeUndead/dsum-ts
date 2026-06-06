@@ -12,6 +12,7 @@ export interface RouteData {
   id: string;
   name: string;
   isBlinds: boolean;
+  isSafari: boolean;
   games: Game[];
   encounterRates: Partial<Record<Game, number>>;
   encounters: Partial<Record<Game, Encounter[]>>;
@@ -24,6 +25,7 @@ export interface SelectionConfig {
   leadLevel: number;
   threshold: number;
   pikaLead: boolean;
+  npcOnScreen: boolean;
 }
 
 export const GAMES: Array<{ id: Game; name: string }> = [

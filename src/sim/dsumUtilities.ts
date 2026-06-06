@@ -110,11 +110,13 @@ export function overlapOrUseNewRange(previous: Map<number, number> | null, next:
   return reduced;
 }
 
-export function overworldDelta(ms: number, config: SelectionConfig): number {
+export function overworldDelta(ms: number, config: SelectionConfig, route: RouteData): number {
   const constants = timingConstantsForConfig(config);
   const sign = config.game === "YELLOW" ? 1 : -1;
   const frames = ms / ONE_FRAME_MS;
-  return (frames / constants.OVERWORLD_CYCLE_FRAMES) * DSUM_RANGE * sign;
+  const overworldCycle = route.isSafari ? constants.OVERWORLD_CYCLE_FRAMES
+      : (config.npcOnScreen ? constants.OVERWORLD_CYCLE_FRAMES : constants.OVERWORLD_WITHOUT_NPC_CYCLE_FRAMES);
+  return (frames / overworldCycle) * DSUM_RANGE * sign;
 }
 
 export function inBattleDelta(ms: number, config: SelectionConfig): number {
