@@ -5260,7 +5260,7 @@ export const ROUTES: RouteData[] = [
   },
   {
     "id": "POKEMON_TOWER_3F",
-    "name": "Rock Tunnel (3F)",
+    "name": "Pokémon Tower (3F)",
     "isBlinds": true,
     "games": ["RED", "BLUE", "YELLOW"],
     "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
@@ -5425,7 +5425,7 @@ export const ROUTES: RouteData[] = [
   },
   {
     "id": "POKEMON_TOWER_4F",
-    "name": "Rock Tunnel (4F)",
+    "name": "Pokémon Tower (4F)",
     "isBlinds": true,
     "games": ["RED", "BLUE", "YELLOW"],
     "encounterRates": { "RED": 10, "BLUE": 10, "YELLOW": 10 },
@@ -9729,7 +9729,58 @@ export const ROUTES: RouteData[] = [
           "level": 100
         }
       ],
-      "YELLOW": []
+      "YELLOW": [
+        {
+          "species": "Bulbasaur",
+          "dex": 1,
+          "level": 10
+        },
+        {
+          "species": "Ivysaur",
+          "dex": 2,
+          "level": 20
+        },
+        {
+          "species": "Venusaur",
+          "dex": 3,
+          "level": 30
+        },
+        {
+          "species": "Charmander",
+          "dex": 4,
+          "level": 40
+        },
+        {
+          "species": "Charmeleon",
+          "dex": 5,
+          "level": 50
+        },
+        {
+          "species": "Charizard",
+          "dex": 6,
+          "level": 60
+        },
+        {
+          "species": "Squirtle",
+          "dex": 7,
+          "level": 70
+        },
+        {
+          "species": "Wartortle",
+          "dex": 8,
+          "level": 80
+        },
+        {
+          "species": "Blastoise",
+          "dex": 9,
+          "level": 95
+        },
+        {
+          "species": "Pikachu",
+          "dex": 25,
+          "level": 100
+        }
+      ]
     }
   },
   {
@@ -9843,7 +9894,58 @@ export const ROUTES: RouteData[] = [
           "level": 100
         }
       ],
-      "YELLOW": []
+      "YELLOW": [
+        {
+          "species": "Bulbasaur",
+          "dex": 1,
+          "level": 10
+        },
+        {
+          "species": "Ivysaur",
+          "dex": 2,
+          "level": 20
+        },
+        {
+          "species": "Venusaur",
+          "dex": 3,
+          "level": 30
+        },
+        {
+          "species": "Charmander",
+          "dex": 4,
+          "level": 40
+        },
+        {
+          "species": "Charmeleon",
+          "dex": 5,
+          "level": 50
+        },
+        {
+          "species": "Charizard",
+          "dex": 6,
+          "level": 60
+        },
+        {
+          "species": "Squirtle",
+          "dex": 7,
+          "level": 70
+        },
+        {
+          "species": "Wartortle",
+          "dex": 8,
+          "level": 80
+        },
+        {
+          "species": "Blastoise",
+          "dex": 9,
+          "level": 95
+        },
+        {
+          "species": "Pikachu",
+          "dex": 25,
+          "level": 100
+        }
+      ]
     }
   }
 ];
