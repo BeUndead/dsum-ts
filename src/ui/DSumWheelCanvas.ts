@@ -1,4 +1,4 @@
-import { ENCOUNTER_SLOTS, type SelectionConfig } from "../model/types";
+import { type SelectionConfig } from "../model/types";
 import { DSUM_RANGE } from "../sim/constants";
 import { DSumDriver } from "../sim/DSumDriver";
 
@@ -56,12 +56,12 @@ export class DSumWheelCanvas {
     const idealRadius = visibleHeight / (2 * visibleWheelFraction);
     const radius = Math.max(
       70,
-      Math.min(
-        width * 0.45,
-        idealRadius,
-      ),
+      idealRadius,
     );
-    const cy = height - radius * (2 * visibleWheelFraction - 1);
+    const cy = Math.max(
+      radius + topGap,
+      height - radius * (2 * visibleWheelFraction - 1),
+    );
 
     ctx.save();
     ctx.translate(cx, cy);
