@@ -37,7 +37,10 @@ const RED_BLUE_TIMING_CONSTANTS: TimingConstants = {
 
 const YELLOW_TIMING_CONSTANTS: TimingConstants = {
   OVERWORLD_WITHOUT_NPC_CYCLE_FRAMES: 682.1879699,
-  OVERWORLD_CYCLE_FRAMES:  819.5756458,
+  // Usage note:
+  // In Viridian Forest, aim for Pikachu following, with no NPC on screen.
+  // In Safari Zone (East), aim for being on the bike.
+  OVERWORLD_CYCLE_FRAMES: 805.3501906,
   IN_BATTLE_CYCLE_FRAMES: 783.1091954,
   HORIZONTAL_BLINDS_FRAMES: 70,
   VERTICAL_BLINDS_FRAMES: 64,
