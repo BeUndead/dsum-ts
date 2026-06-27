@@ -67,6 +67,24 @@ export function timingConstantsForConfig(config: SelectionConfig): TimingConstan
   return timingConstantsForGame(config.game);
 }
 
+export function overworldCycleFramesForConfig(config: SelectionConfig, route: RouteData): number {
+  if (route.isSafari) {
+    const constants = timingConstantsForConfig(config);
+    return constants.OVERWORLD_CYCLE_FRAMES;
+  }
+
+  if (config.game === "YELLOW" && route.yellowOverworldCycleFrames) {
+    const yFrames = route.yellowOverworldCycleFrames;
+    if (config.pikaFollow) {
+      return config.npcOnScreen ? yFrames.npcOnPikaFollow : yFrames.npcOffPikaFollow;
+    }
+    return config.npcOnScreen ? yFrames.npcOn : yFrames.npcOff;
+  }
+
+  const constants = timingConstantsForConfig(config);
+  return config.npcOnScreen ? constants.OVERWORLD_CYCLE_FRAMES : constants.OVERWORLD_WITHOUT_NPC_CYCLE_FRAMES;
+}
+
 export function encounterRateForConfig(config: SelectionConfig, route: RouteData): number {
   const encounterRate = route.encounterRates[config.game];
   if (encounterRate == null) {

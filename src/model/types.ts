@@ -8,6 +8,13 @@ export interface Encounter {
   level: number;
 }
 
+export interface YellowOverworldCycleFrames {
+  npcOff: number;
+  npcOn: number;
+  npcOffPikaFollow: number;
+  npcOnPikaFollow: number;
+}
+
 export interface RouteData {
   id: string;
   name: string;
@@ -16,6 +23,7 @@ export interface RouteData {
   games: Game[];
   encounterRates: Partial<Record<Game, number>>;
   encounters: Partial<Record<Game, Encounter[]>>;
+  yellowOverworldCycleFrames?: YellowOverworldCycleFrames;
 }
 
 export interface SelectionConfig {
@@ -25,6 +33,7 @@ export interface SelectionConfig {
   leadLevel: number;
   threshold: number;
   pikaLead: boolean;
+  pikaFollow: boolean;
   npcOnScreen: boolean;
 }
 

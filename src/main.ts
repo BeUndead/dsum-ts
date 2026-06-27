@@ -14,6 +14,7 @@ const config: SelectionConfig = {
   leadLevel: 70,
   threshold: 0.1,
   pikaLead: false,
+  pikaFollow: false,
   npcOnScreen: false,
 };
 
@@ -46,10 +47,16 @@ app.innerHTML = `
         </div>
         <div class="field compact" id="pika-lead-field">
           <label>Yellow</label>
-          <button id="pika-lead" class="pika-lead-toggle" type="button" aria-pressed="${config.pikaLead}" title="Pika Lead">
-            <img src="${assetBase}sprites/y/25.png" alt="">
-            <span>Pika Lead</span>
-          </button>
+          <div class="pika-toggle-row">
+            <button id="pika-lead" class="pika-lead-toggle pika-half" type="button" aria-pressed="${config.pikaLead}" title="Pika Lead">
+              <img src="${assetBase}sprites/y/25.png" alt="">
+              <span>Lead</span>
+            </button>
+            <button id="pika-follow" class="pika-lead-toggle pika-half" type="button" aria-pressed="${config.pikaFollow}" title="Pika Follow">
+              <img src="${assetBase}sprites/y/25.png" alt="">
+              <span>Follow</span>
+            </button>
+          </div>
           <button id="npc-on-screen" class="pika-lead-toggle" type="button" aria-pressed="${config.npcOnScreen}" title="On-Screen NPC">
             <span>On-Screen NPC</span>
           </button>
@@ -109,6 +116,7 @@ const leadInput = document.getElementById("lead-level") as HTMLInputElement;
 const thresholdInput = document.getElementById("threshold") as HTMLInputElement;
 const pikaLeadField = document.getElementById("pika-lead-field") as HTMLElement;
 const pikaLeadButton = document.getElementById("pika-lead") as HTMLButtonElement;
+const pikaFollowButton = document.getElementById("pika-follow") as HTMLButtonElement;
 const npcOnScreenButton = document.getElementById("npc-on-screen") as HTMLButtonElement;
 const slotStrip = document.getElementById("slot-strip") as HTMLElement;
 const mobilePauseButton = document.getElementById("mobile-pause") as HTMLButtonElement;
@@ -129,6 +137,7 @@ gameSelect.addEventListener("change", () => {
   refreshRouteOptions();
   if (config.game !== "YELLOW") {
     config.pikaLead = false;
+    config.pikaFollow = false;
     config.npcOnScreen = false;
   }
   refreshYellowControls();
@@ -153,6 +162,14 @@ pikaLeadButton.addEventListener("click", () => {
     return;
   }
   config.pikaLead = !config.pikaLead;
+  refreshYellowControls();
+});
+
+pikaFollowButton.addEventListener("click", () => {
+  if (config.game !== "YELLOW") {
+    return;
+  }
+  config.pikaFollow = !config.pikaFollow;
   refreshYellowControls();
 });
 
@@ -328,6 +345,8 @@ function refreshYellowControls() {
   pikaLeadField.hidden = !isYellow;
   pikaLeadButton.disabled = !isYellow;
   pikaLeadButton.setAttribute("aria-pressed", String(isYellow && config.pikaLead));
+  pikaFollowButton.disabled = !isYellow;
+  pikaFollowButton.setAttribute("aria-pressed", String(isYellow && config.pikaFollow));
   npcOnScreenButton.disabled = !isYellow;
   npcOnScreenButton.setAttribute("aria-pressed", String(isYellow && config.npcOnScreen));
 }

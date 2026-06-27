@@ -4295,6 +4295,12 @@ export const ROUTES: RouteData[] = [
           "level": 9
         }
       ]
+    },
+    "yellowOverworldCycleFrames": {
+      "npcOff": 797,
+      "npcOn": 827,
+      "npcOffPikaFollow": 797,
+      "npcOnPikaFollow": 827
     }
   },
   {
